@@ -15,10 +15,6 @@ class SiteController{
     search(req, res){
         res.render('search');
     }
-
-    signup(req, res){
-        res.render('signup', {removeHeader: true} );
-    }
 }
 
 module.exports = new SiteController;

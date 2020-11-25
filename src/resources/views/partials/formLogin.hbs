@@ -1,0 +1,48 @@
+<div class="modal fade" id="loginForm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="signin">
+        <h1 class="signin-heading">Đăng nhập</h1>
+        <form action="/" class="signin-form" id="form-login" autocomplete="off" method="GET">
+          <div class="form-group">
+            <label for="username" class="form-label">Tên đăng nhập</label>
+            <input type="text" class="form-control" id="username" name="username">
+            <span class="form-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <span class="form-message"></span>
+          </div>
+          <button type="submit" class="form-submit">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Đăng nhập
+          </button>
+          <div class="signin-or">
+            <span class="signin-or-text">Hoặc</span>
+          </div>
+          <a href="#" class="signin-google">
+            <i class="fab fa-google signin-google-icon"></i>
+            <span class="signin-google-text">Đăng nhập bằng google</span>
+          </a>
+        </form>
+        <p class="signin-already">Bạn chưa có tài khoản? <a href="#" class="signin-already-link">Đăng ký</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/Validation.js"></script>
+<script>
+  Validator({
+    form: '#form-login',
+    errorSelector: '.form-message',
+    rules: [
+      Validator.isRequired('#username', 'Vui lòng nhập trường này'), //2 hàm tra ve 2 obj => rule la 1 mang, moi phan tu mang la 1 obj
+      Validator.minLength('#password', 6),
+    ]
+  });
+</script>
