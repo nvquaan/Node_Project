@@ -1,0 +1,90 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark site-header">
+  <a class="navbar-brand" href="/">
+    <i class="fas fa-home home-icon"></i>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse">
+    <div class="bell-noti">
+      <i class="fa fa-bell bell-noti-icon"></i>
+      <div class="bell-noti-status"></div>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Chức năng
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/courses/create">Thêm khoá học</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/me/stored/courses">Khoá học của tôi</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="" data-toggle="modal" data-target="#loginForm">Đăng nhập</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/signup">Đăng ký</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/me/stored/courses">Đăng xuất</a>
+          <div class="dropdown-divider"></div>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" method="POST">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="modal fade" id="loginForm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="signin">
+        <h1 class="signin-heading">Đăng nhập</h1>
+        <form action="/" class="signin-form" id="form-login" autocomplete="off" method="GET">
+          <div class="form-group">
+            <label for="username" class="form-label">Tên đăng nhập</label>
+            <input type="text" class="form-control" id="username" name="username">
+            <span class="form-message"></span>
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <span class="form-message"></span>
+          </div>
+          <button type="submit" class="form-submit">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Đăng nhập
+          </button>
+          <div class="signin-or">
+            <span class="signin-or-text">Hoặc</span>
+          </div>
+          <a href="#" class="signin-google">
+            <i class="fab fa-google signin-google-icon"></i>
+            <span class="signin-google-text">Đăng nhập bằng google</span>
+          </a>
+        </form>
+        <p class="signin-already">Bạn chưa có tài khoản? <a href="#" class="signin-already-link">Đăng ký</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="js/FormLogin.js"></script>
+<script>
+  Validator({
+    form: '#form-login',
+    errorSelector: '.form-message',
+    rules: [
+      Validator.isRequired('#username', 'Vui lòng nhập trường này'), //2 hàm tra ve 2 obj => rule la 1 mang, moi phan tu mang la 1 obj
+      Validator.minLength('#password', 6),
+    ]
+  });
+</script>

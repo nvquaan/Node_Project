@@ -1,0 +1,91 @@
+<div class="mt-4">
+    <div>
+      <h3>Khoá học đã xoá</h3>
+      <a href="/me/stored/courses">Danh sách khoá học</a>
+    </div>
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên khoá học</th>
+            <th scope="col">Trình độ</th>
+            <th scope="col">Thời gian xoá</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each deletedCourses}}
+        <tr>
+            <th scope="row">{{sum @index 1}}</th>
+            <td>{{this.name}}</td>
+            <td>{{this.level}}</td>
+            <td>{{this.deletedAt}}</td>
+            <td>
+                <a href="" class="btn btn-restore" data-id="{{this._id}}">Khôi phục</a>
+                <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-course">Xoá vĩnh viễn</a>
+            </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="5" class="text-center">
+            Thùng rác trống
+          </td>
+        </tr>
+
+        {{/each}}
+    </tbody>
+</table>
+</div>
+
+{{!-- Confirm delete course--}}
+<div id="delete-course" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xoá vĩnh viễn</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Hành động này không thể khôi phục!</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-course" type="button" class="btn btn-danger">Xoá vĩnh viễn</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<form method="POST" name="delete-course-form" action=""></form>
+<form method="POST" name="restore-course-form" action=""></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        //Khi bam vao nut xoa
+        var courseId;
+        var deleteForm = document.forms['delete-course-form'];
+        var restoreForm = document.forms['restore-course-form'];
+        var btnDeleteCourse = document.getElementById('btn-delete-course');
+        var restoreBtn = $('.btn-restore');
+        $('#delete-course').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        courseId = button.data('id')
+        })
+
+        btnDeleteCourse.onclick = function(){
+            deleteForm.action = '/courses/' + courseId + '/force-delete?_method=DELETE';
+            deleteForm.submit();
+        }
+
+        restoreBtn.click(function(e){
+            e.preventDefault();
+            var courseId = $(this).data('id');
+            restoreForm.action = '/courses/' + courseId + '/restore?_method=PATCH';
+            restoreForm.submit();
+
+        });
+    })
+</script>

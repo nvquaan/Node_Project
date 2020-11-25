@@ -1,0 +1,27 @@
+.bell-noti {
+    font-size: 1.3rem;
+    color: #ccc;
+    position: relative;
+    display: inline-block;
+    margin-left: 70%;
+  }
+  .bell-noti-icon:hover {
+    animation: ring 0.25s forwards alternate infinite linear;
+  }
+  .bell-noti-status {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 1rem;
+    background-color: #13d2b8;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  @keyframes ring {
+    from {
+      transform: rotate(-10deg);
+    }
+    to {
+      transform: rotate(10deg);
+    }
+  }
