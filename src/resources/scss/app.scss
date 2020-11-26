@@ -5,9 +5,9 @@
 @import "loginForm";
 @import "lineLoading";
 @import "signup";
-a:link {
-  text-decoration: none;
-  color: #6db88a;
+a:link, 
+a:hover {
+  text-decoration: none !important;
 }
 .search-course {
   margin-left: 100px;

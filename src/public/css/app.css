@@ -41,25 +41,17 @@
   transition: transform 250ms cubic-bezier(0.07, 0.79, 0.18, 0.92);
   position: relative; }
 
-.card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  border-radius: 4px 4px 0 0;
-  background-color: #ff414d;
-  transform: scaleX(0);
-  transition: transform 1s cubic-bezier(0.06, 1.05, 0.24, 0.97);
-  transform-origin: 0; }
-
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.08); }
 
 .card:hover::before {
   transform: scaleX(1); }
+
+.card-title {
+  font-family: 'Nerko One', cursive;
+  color: #eb089f;
+  font-size: 1.4rem; }
 
 .course-btn {
   color: white;
@@ -108,7 +100,6 @@
   width: 100%;
   border-radius: 16px;
   background-color: #4c6ef4;
-  text-decoration: none;
   padding: 8px;
   margin-bottom: 25px;
   box-shadow: 0 10px 20px -5px rgba(76, 110, 244, 0.9); }
@@ -165,8 +156,7 @@
   font-size: 17px; }
 
 .signin-already-link {
-  color: #4c6ef4;
-  text-decoration: none; }
+  color: #4c6ef4; }
 
 .form-group {
   margin-bottom: 25px; }
@@ -353,9 +343,6 @@
   display: block;
   max-width: 100%; }
 
-.signup a {
-  text-decoration: none; }
-
 input,
 button,
 textarea,
@@ -500,9 +487,9 @@ select {
   .signup-container {
     max-width: 100%; } }
 
-a:link {
-  text-decoration: none;
-  color: #6db88a; }
+a:link,
+a:hover {
+  text-decoration: none !important; }
 
 .search-course {
   margin-left: 100px; }
