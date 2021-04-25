@@ -7,10 +7,29 @@
     <table class="table">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Tên khoá học</th>
-            <th scope="col">Trình độ</th>
-            <th scope="col">Thời gian xoá</th>
+            <th scope="col" >STT</th>
+            <th scope="col">
+                Tên khoá học
+                {{{sortable 'name' _sort}}}
+            </th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">
+                Danh mục
+                {{{sortable 'category.name' _sort}}}
+            </th>
+            <th scope="col">
+                Số bài học
+                {{{sortable 'lessonNumber' _sort}}}
+            </th>
+            <th scope="col">Trình độ
+                {{{sortable 'level' _sort}}}
+            </th>
+            <th scope="col">Tổng thời gian
+                {{{sortable 'time' _sort}}}
+            </th>
+            <th scope="col">Giá
+                {{{sortable 'cost' _sort}}}
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -18,8 +37,12 @@
         <tr>
             <th scope="row">{{sum @index 1}}</th>
             <td>{{this.name}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.category.name}}</td>
+            <td>{{this.lessonNumber}}</td>
             <td>{{this.level}}</td>
-            <td>{{this.deletedAt}}</td>
+            <td>{{this.time}}</td>
+            <td>{{this.cost}}</td>
             <td>
                 <a href="" class="btn btn-restore" data-id="{{this._id}}">Khôi phục</a>
                 <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-course">Xoá vĩnh viễn</a>

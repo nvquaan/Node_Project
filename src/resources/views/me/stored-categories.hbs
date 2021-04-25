@@ -1,59 +1,31 @@
-<form name="container-form" class="mt-4" method="POST" action="/courses/handle-form-actions">
+<form name="container-form" class="mt-4" method="POST" action="/categories/handle-form-actions">
     <div>
-        <h3>Khoá học của tôi</h3>
-        <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a>
+        <h3>Danh mục khoá học của tôi</h3>
+        <a href="/me/trash/categories">Thùng rác ({{deletedCount}})</a>
 
-        <div class="mt-4 d-flex align-items-center">
-            <select class="custom-select form-control-sm checkbox-select-all-options" name="action" required>
-                <option value="">Tất cả</option>
-                <option value="delete">Xoá</option>
-            </select>
-
-            <button class="btn btn-primary btn-sm submit-btn" disabled>Thực
-                hiện
-            </button>
-        </div>
     </div>
 
     <table class="table">
         <thead>
         <tr>
-            <th scope="col" >STT</th>
+
+            <th scope="col">STT</th>
             <th scope="col">
-                Tên khoá học
+                Tên danh mục
                 {{{sortable 'name' _sort}}}
             </th>
             <th scope="col">Mô tả</th>
-            <th scope="col">
-                Danh mục
-                {{{sortable 'category.name' _sort}}}
-            </th>
-            <th scope="col">
-                Số bài học
-                {{{sortable 'lessonNumber' _sort}}}
-            </th>
-            <th scope="col">Trình độ
-                {{{sortable 'level' _sort}}}
-            </th>
-            <th scope="col">Tổng thời gian
-                {{{sortable 'time' _sort}}}
-            </th>
-            <th scope="col">Giá
-                {{{sortable 'cost' _sort}}}
-            </th>
+            <th scope="col">Ảnh</th>
+
         </tr>
         </thead>
         <tbody>
-        {{#each courses}}
+        {{#each categories}}
             <tr>
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.description}}</td>
-                <td>{{this.category.name}}</td>
-                <td>{{this.lessonNumber}}</td>
-                <td>{{this.level}}</td>
-                <td>{{this.time}}</td>
-                <td>{{this.cost}}</td>
+                <td>{{this.imageUrl}}</td>
                 <td>
                     <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
                     <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
@@ -99,7 +71,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         //Khi bam vao nut xoa
-        var courseIds;
+        var categoryIds;
         var deleteForm = document.forms['delete-course-form'];
         var btnDeleteCourse = document.getElementById('btn-delete-course');
         var checkBoxAll = $('#checkbox-all');
@@ -109,11 +81,11 @@
 
         $('#delete-course').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
-            courseIds = button.data('id');
+            categoryIds = button.data('id');
         })
 
         btnDeleteCourse.onclick = function () {
-            deleteForm.action = '/courses/' + courseIds + '?_method=DELETE';
+            deleteForm.action = '/categories/' + categoryIds + '?_method=DELETE';
             deleteForm.submit();
         }
 
@@ -128,8 +100,8 @@
         //     checkBoxAll.prop('checked', isCheckedAll);
         //     renderSubmitBtn()
         // })
-
-        //Re-render check all submit btn
+        //
+        // //Re-render check all submit btn
         // function renderSubmitBtn() {
         //     var checkedCount = $('input[name="courseIds[]"]:checked').length;
         //     if (checkedCount) {

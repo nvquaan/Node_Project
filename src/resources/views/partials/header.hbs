@@ -1,42 +1,46 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark site-header">
-  <a class="navbar-brand" href="/">
-    <i class="fas fa-home home-icon"></i>
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <a class="navbar-brand" href="/">
+        <i class="fas fa-home home-icon"></i>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse">
-    <div class="bell-noti">
-      <i class="fa fa-bell bell-noti-icon"></i>
-      <div class="bell-noti-status"></div>
-    </div>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          Chức năng
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/courses/create">Thêm khoá học</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/me/stored/courses">Khoá học của tôi</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="" data-toggle="modal" data-target="#loginForm">Đăng nhập</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="" data-toggle="modal" data-target="#registerForm">Đăng ký</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/me/stored/courses">Đăng xuất</a>
-          <div class="dropdown-divider"></div>
+    <div class="collapse navbar-collapse">
+        <div class="bell-noti">
+            <i class="fa fa-bell bell-noti-icon"></i>
+            <div class="bell-noti-status"></div>
         </div>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0" method="POST">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Chức năng
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/categories/create">Thêm danh mục khoá học</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/courses/create">Thêm khoá học</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/me/stored/categories">Danh mục khoá học của tôi</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/me/stored/courses">Khoá học của tôi</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#loginForm">Đăng nhập</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#registerForm">Đăng ký</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/me/stored/courses">Đăng xuất</a>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="POST">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
 </nav>
 
 {{> formLogin}}

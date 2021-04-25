@@ -4,5 +4,7 @@ const router = express.Router();
 const meController = require('../app/controllers/MeController');
 router.get('/trash/courses', meController.trashCourses);
 router.get('/stored/courses', meController.storedCourses);
+router.get('/trash/categories', meController.trashCategories);
+router.get('/stored/categories', meController.storedCategories);
 
 module.exports = router;

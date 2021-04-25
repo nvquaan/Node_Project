@@ -34,15 +34,3 @@
     </div>
   </div>
 </div>
-
-<script src="js/Validation.js"></script>
-<script>
-  Validator({
-    form: '#form-login',
-    errorSelector: '.form-message',
-    rules: [
-      Validator.isRequired('#username', 'Vui lòng nhập trường này'), //2 hàm tra ve 2 obj => rule la 1 mang, moi phan tu mang la 1 obj
-      Validator.minLength('#password', 6),
-    ]
-  });
-</script>
