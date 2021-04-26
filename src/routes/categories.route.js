@@ -11,6 +11,6 @@ router.put('/:id', categoryController.update);
 router.delete('/:id', categoryController.delete);
 router.delete('/:id/force-delete', categoryController.forceDelete);
 router.patch('/:id/restore', categoryController.restore);
-router.get('/:slug', categoryController.show);
+router.get('/:slug', categoryController.showCategory);
 
 module.exports = router;

@@ -1,23 +1,12 @@
 const Course = require("../models/Course");
-const {
-    getAllResponse,
-    createResponse,
-    updateResponse,
-    getOneResponse,
-    response
-} = require("../lib/response");
-const {checkRoute} = require('../middlewares/CheckRoute');
 
 class SiteController {
     // [GET] /
-    home(req, res, next) {
+    getAllCourses(req, res, next) {
         Course.find({})
             .then((courses) => {
                 courses = courses.map((course) => course.toObject());
-                if (checkRoute(req)) {
-                    getAllResponse(res, courses)
-                } else
-                    res.render("home", {courses, showTitle: true, showFooter: true})
+                res.render("home", {courses, showTitle: true, showFooter: true});
             })
             .catch(next);
     }

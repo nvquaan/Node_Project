@@ -3,7 +3,7 @@ exports.getAllResponse = (res, data, message) => {
         success: true,
         message,
         code: 200,
-        data
+        data,
     });
 }
 
@@ -42,10 +42,16 @@ exports.getOneResponse = (res, data) => {
     });
 }
 
-exports.response = (res, message) => {
-    res.send({
+exports.response = (res, data, message) => {
+    // res.send({
+    //     success: true,
+    //     code: 200,
+    //     message
+    // });
+    res.status(200).json({
         success: true,
         code: 200,
-        message
+        message,
+        data,
     });
 }

@@ -1,23 +1,12 @@
 const Category = require("../models/Category");
 const Course = require("../models/Course");
-const {
-    getAllResponse,
-    createResponse,
-    updateResponse,
-    getOneResponse,
-    response
-} = require("../lib/response");
-const {checkRoute} = require('../middlewares/CheckRoute');
 
 class CategoryController {
     //[GET] /categories/:slug  Hien thi 1 danh muc
-    show(req, res, next) {
+    showCategory(req, res, next) {
         Category.findOne({slug: req.params.slug})
             .then((category) => {
               category = category.toObject();
-                if(checkRoute(req)){
-                  getOneResponse(res, category);
-                }
                 res.render("categories/show", {category, removeHeader: false});
             })
             .catch(next);

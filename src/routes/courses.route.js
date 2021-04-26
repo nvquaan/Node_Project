@@ -11,6 +11,6 @@ router.put('/:id', courseController.update);
 router.delete('/:id', courseController.delete);
 router.delete('/:id/force-delete', courseController.forceDelete);
 router.patch('/:id/restore', courseController.restore);
-router.get('/:slug', courseController.show);
+router.get('/:slug', courseController.showCourse);
 
 module.exports = router;
