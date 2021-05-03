@@ -1,5 +1,6 @@
 const Course = require("../models/Course");
 const Category = require("../models/Category");
+const Lesson = require("../models/Lesson");
 
 class CourseController {
     //[GET] /courses/:slug  Hien thi 1 khoa hoc
@@ -72,7 +73,9 @@ class CourseController {
     //[DELETE] /courses/:id SOFT DELETE
     async delete(req, res, next) {
         try {
-            await Course.delete({ _id: req.params.id });
+            const courseId = req.params.id;
+            await Lesson.delete({course: courseId});
+            await Course.delete({ _id: courseId });
             res.redirect("back");
         } catch (err) {
             next(err);
@@ -82,11 +85,10 @@ class CourseController {
     //[DELETE] /courses/:id DELETE
     async forceDelete(req, res, next) {
         try {
+            await Lesson.deleteMany({course: req.params.id});
             const course = await Course.findOneDeleted({ _id: req.params.id });
             const resultDelete = await course.deleteOne();
-            console.log(resultDelete);
             const category = await Category.findOne({ _id: resultDelete.category });
-            console.log(category);
             category.courseNumber--;
             await category.save();
             res.redirect("back");

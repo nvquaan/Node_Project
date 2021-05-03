@@ -1,5 +1,6 @@
 const Category = require("../models/Category");
 const Course = require("../models/Course");
+const Lesson = require("../models/Lesson");
 const { response } = require('../lib/response');
 const { error } = require('../lib/error');
 
@@ -42,7 +43,7 @@ class AppController {
         }
     }
 
-
+    //COURSES
     // [GET] /courses/:slug
     async getOneCourse(req, res, next) {
         try {
@@ -80,6 +81,46 @@ class AppController {
             error(res, 'Không thành công');
         }
     }
+
+    //LESSONS
+    // [GET] /lessons/:slug
+    async getOneLesson(req, res, next) {
+        try {
+            let lesson = await Lesson.findOne({ slug: req.params.slug });
+            lesson = lesson.toObject();
+            response(res, lesson, 'Lấy thành công 1 bài học');
+        }
+        catch (err) {
+            error(res, 'Không thành công');
+        }
+    }
+
+    // [GET] /lessons
+    async getAllLessons(req, res, next) {
+        try {
+            let lessons = await Lesson.find({}).populate('category', 'name');
+            // let deletedCount = await Lesson.countDocumentsDeleted();
+            lessons = lessons.map(lesson => lesson.toObject());
+            response(res, lessons, 'Lấy thành công tất cả bài học');
+        }
+        catch (err) {
+            error(res, 'Không thành công');
+        }
+    }
+
+    // [GET] /trash/lessons
+    async trashLessons(req, res, next) {
+        try {
+            let deletedLessons = await Lesson.findDeleted({});
+            deletedLessons = deletedLessons.map(l => l.toObject());
+            response(res, deletedLessons, 'Lấy thành công tất cả bài học đã xoá');
+
+        }
+        catch (err) {
+            error(res, 'Không thành công');
+        }
+    }
+
 }
 
 
