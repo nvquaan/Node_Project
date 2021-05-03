@@ -1,0 +1,30 @@
+<div class="mt-4">
+    <h3>Tạo bài học</h3>
+<form method="POST" action="/lessons/store">
+    <div class="form-group">
+        <label for="name">Tên bài học</label>
+        <input type="text" class="form-control" name="name" >
+    </div>
+    <div class="form-group">
+        <label for="description">Mô tả</label>
+        <input type="text" class="form-control" name="description">
+    </div>
+    <div class="form-group">
+        <label for="imageUrl">Image Url</label>
+        <input type="text" class="form-control" name="imageUrl">
+    </div>
+    <div class="form-group">
+        <label for="time">Thời gian</label>
+        <input type="text" class="form-control" name="time">
+    </div>
+    <div class="form-group">
+        <label for="course">Khoá học</label>
+        <select class="custom-select form-control-sm checkbox-select-all-options" name="course" required>
+            {{#each courses}}
+                <option value="{{this._id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary lesson-btn">Submit</button>
+</form>
+</div>

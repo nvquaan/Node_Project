@@ -3,13 +3,14 @@ const Schema = mongoose.Schema;
 const slug = require("mongoose-slug-generator");
 const mongooseDelete = require("mongoose-delete"); //Soft delete
 
-const CategorySchema = new Schema(
+const LessonSchema = new Schema(
     {
         name: {type: String},
-        description: String,
+        description: {tpye: String},
         imageUrl: {type: String},
-        courseNumber : {type: Number, default:0},
+        time: {type: String},
         slug: {type: String, slug: "name", unique: true},
+        course: {type: mongoose.Schema.Types.ObjectID, ref: 'Course', required: true}
     },
     {
         timestamps: true,
@@ -17,7 +18,7 @@ const CategorySchema = new Schema(
 );
 
 //Custom query helpers
-CategorySchema.query.sortable = function (req) {
+LessonSchema.query.sortable = function (req) {
     if (req.query.hasOwnProperty("_sort")) {
         const isValidType = ["asc", "desc"].includes(req.query.type);
         return this.sort({
@@ -28,11 +29,11 @@ CategorySchema.query.sortable = function (req) {
 };
 
 //Add plugins
-CategorySchema.plugin(mongooseDelete, {
+LessonSchema.plugin(mongooseDelete, {
     deletedAt: true,
     overrideMethods: "all",
 });
 
 mongoose.plugin(slug);
 
-module.exports = mongoose.model("Category", CategorySchema);
+module.exports = mongoose.model("Lesson", LessonSchema);

@@ -12,4 +12,6 @@ router.get('/trash/categories', appController.trashCategories);
 router.get('/courses/:slug', appController.getOneCourse);
 router.get('/courses/', appController.getAllCourses);
 router.get('/trash/courses/', appController.trashCourses);
+
+//LESSONS
 module.exports = router;

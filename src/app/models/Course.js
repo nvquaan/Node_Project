@@ -8,7 +8,7 @@ const CourseSchema = new Schema(
         name: {type: String},
         description: String,
         imageUrl: {type: String},
-        lessonNumber: {type: Number},
+        lessonNumber: {type: Number, default:0},
         level: {type: String},
         time: {type: String},
         cost: {type: Number},

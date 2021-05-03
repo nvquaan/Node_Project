@@ -2,13 +2,15 @@ const Course = require("../models/Course");
 
 class SiteController {
     // [GET] /
-    getAllCourses(req, res, next) {
-        Course.find({})
-            .then((courses) => {
-                courses = courses.map((course) => course.toObject());
-                res.render("home", {courses, showTitle: true, showFooter: true});
-            })
-            .catch(next);
+    async getAllCourses(req, res, next) {
+        try {
+            let courses = await Course.find({});
+            courses = courses.map((course) => course.toObject());
+            res.render("home", { courses });
+        }
+        catch (err) {
+            next(err);
+        }
     }
 
     //[GET] /search
