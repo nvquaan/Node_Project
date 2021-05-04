@@ -9,6 +9,7 @@ router.get('/categories', appController.getAllCategories);
 router.get('/trash/categories', appController.trashCategories);
 
 //COURSES
+router.get('/courses/:slug/lessons', appController.getAllLessonsOfCourse);
 router.get('/courses/:slug', appController.getOneCourse);
 router.get('/courses/', appController.getAllCourses);
 router.get('/trash/courses/', appController.trashCourses);

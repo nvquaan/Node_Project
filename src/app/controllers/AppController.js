@@ -44,6 +44,18 @@ class AppController {
     }
 
     //COURSES
+    // [GET] /courses/:slug/lessons/
+    async getAllLessonsOfCourse(req, res, next) {
+        try{
+            const courseId = await Course.findOne({slug: req.params.slug});
+            let lesson = await Lesson.find({course: courseId});
+            lesson = lesson.map(l => l.toObject());
+            response(res, lesson, 'Lấy thành công');
+        }
+        catch (err) {
+            error(res, 'Không thành công');
+        }
+    }
     // [GET] /courses/:slug
     async getOneCourse(req, res, next) {
         try {

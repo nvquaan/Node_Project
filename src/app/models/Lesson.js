@@ -6,7 +6,7 @@ const mongooseDelete = require("mongoose-delete"); //Soft delete
 const LessonSchema = new Schema(
     {
         name: {type: String},
-        description: {tpye: String},
+        description: {type: String},
         imageUrl: {type: String},
         time: {type: String},
         slug: {type: String, slug: "name", unique: true},
