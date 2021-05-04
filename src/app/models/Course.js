@@ -11,6 +11,7 @@ const CourseSchema = new Schema(
         lessonNumber: {type: Number, default:0},
         level: {type: String},
         time: {type: String},
+        rate: {type: Number, default:0},
         cost: {type: Number},
         slug: {type: String, slug: "name", unique: true},
         category: {type: mongoose.Schema.Types.ObjectID, ref: 'Category', required: true}

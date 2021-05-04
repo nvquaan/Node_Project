@@ -16,12 +16,11 @@ exports.createResponse = (res, data, message) => {
     });
 }
 
-exports.updateResponse = (res, data, message) => {
+exports.updateResponse = (res, message) => {
     res.send({
         message,
         success: true,
         code: 200,
-        data
     });
 }
 

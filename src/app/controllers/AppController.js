@@ -1,7 +1,7 @@
 const Category = require("../models/Category");
 const Course = require("../models/Course");
 const Lesson = require("../models/Lesson");
-const { response } = require('../lib/response');
+const { response, updateResponse } = require('../lib/response');
 const { error } = require('../lib/error');
 
 class AppController {
@@ -47,7 +47,7 @@ class AppController {
     // [GET] /courses/:slug
     async getOneCourse(req, res, next) {
         try {
-            let course = await Course.findOne({ slug: req.params.slug });
+            let course = await Course.findOne({ slug: req.params.slug }).populate('category', 'name');
             course = course.toObject();
             response(res, course, 'Lấy thành công 1 khoá học');
         }
@@ -76,6 +76,19 @@ class AppController {
             deletedCourses = deletedCourses.map(course => course.toObject());
             response(res, deletedCourses, 'Lấy thành công tất cả khoá học đã xoá');
 
+        }
+        catch (err) {
+            error(res, 'Không thành công');
+        }
+    }
+
+    //[PUT] /courses/:slug
+    async updateOneCourse(req, res, next){
+        try {
+            let course = await Course.findOne({slug: req.params.slug});
+            course.rate = +req.body.rate;
+            await course.save();
+            updateResponse(res, 'Update thành công');
         }
         catch (err) {
             error(res, 'Không thành công');

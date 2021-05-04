@@ -12,6 +12,7 @@ router.get('/trash/categories', appController.trashCategories);
 router.get('/courses/:slug', appController.getOneCourse);
 router.get('/courses/', appController.getAllCourses);
 router.get('/trash/courses/', appController.trashCourses);
+router.put('/courses/:slug', appController.updateOneCourse)
 
 //LESSONS
 router.get('/lessons/:slug', appController.getOneLesson);
