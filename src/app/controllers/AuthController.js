@@ -1,5 +1,5 @@
 const { response } = require('../lib/response');
-const { error } = require('../lib/error');
+const { error, error400 } = require('../lib/error');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const config = require("../../config/db/auth.config");
@@ -33,7 +33,7 @@ class AuthController {
         try {
             let user = await User.findOne({ username: req.body.username }).populate("roles", "-__v");
             if (!user) {
-                return response(res, 'Không tìm thấy username');
+                return error400(res, 'Không tìm thấy username');
             }
             var passwordIsValid = bcrypt.compareSync(
                 req.body.password,
@@ -41,6 +41,7 @@ class AuthController {
             );
             if (!passwordIsValid) {
                 return res.status(401).send({
+                    success: false,
                     accessToken: null,
                     message: "Sai mật khẩu!"
                 });
@@ -53,13 +54,13 @@ class AuthController {
             for (let role of user.roles) {
                 roles.push("ROLE_" + role.name.toUpperCase());
             }
-            res.status(200).send({
+            response(res, 'Đăng nhập thành công', {
                 id: user._id,
                 username: user.username,
                 email: user.email,
                 roles: roles,
                 accessToken: token
-            });
+            })
         }
         catch (err) {
             error(res, 'Đăng nhập không thành công');

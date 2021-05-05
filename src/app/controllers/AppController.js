@@ -10,7 +10,7 @@ class AppController {
         try {
             let category = await Category.findOne({ slug: req.params.slug });
             category = category.toObject();
-            response(res, category, 'Lấy thành công 1 danh mục khoá học');
+            response(res, 'Lấy thành công 1 danh mục khoá học', category);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -23,7 +23,7 @@ class AppController {
             let categories = await Category.find({}).sortable(req);
             // let deletedCount = Category.countDocumentsDeleted();
             categories = categories.map(category => category.toObject());
-            response(res, categories, 'Lấy thành công các danh mục khoá học');
+            response(res, 'Lấy thành công các danh mục khoá học', categories);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -35,7 +35,7 @@ class AppController {
         try {
             let deletedCategories = await Category.findDeleted({});
             deletedCategories = deletedCategories.map(course => course.toObject());
-            response(res, deletedCategories, 'Lấy thành công các danh mục đã xoá');
+            response(res, 'Lấy thành công các danh mục đã xoá', deletedCategories);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -49,7 +49,7 @@ class AppController {
             const courseId = await Course.findOne({slug: req.params.slug});
             let lesson = await Lesson.find({course: courseId});
             lesson = lesson.map(l => l.toObject());
-            response(res, lesson, 'Lấy thành công');
+            response(res, 'Lấy thành công', lesson);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -60,7 +60,7 @@ class AppController {
         try {
             let course = await Course.findOne({ slug: req.params.slug }).populate('category', 'name');
             course = course.toObject();
-            response(res, course, 'Lấy thành công 1 khoá học');
+            response(res, 'Lấy thành công 1 khoá học', course);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -73,7 +73,7 @@ class AppController {
             let courses = await Course.find({}).populate('category', 'name');
             // let deletedCount = await Course.countDocumentsDeleted();
             courses = courses.map(course => course.toObject());
-            response(res, courses, 'Lấy thành công tất cả khoá học');
+            response(res, 'Lấy thành công tất cả khoá học', courses);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -85,7 +85,7 @@ class AppController {
         try {
             let deletedCourses = await Course.findDeleted({});
             deletedCourses = deletedCourses.map(course => course.toObject());
-            response(res, deletedCourses, 'Lấy thành công tất cả khoá học đã xoá');
+            response(res, 'Lấy thành công tất cả khoá học đã xoá', deletedCourses);
 
         }
         catch (err) {
@@ -112,7 +112,7 @@ class AppController {
         try {
             let lesson = await Lesson.findOne({ slug: req.params.slug });
             lesson = lesson.toObject();
-            response(res, lesson, 'Lấy thành công 1 bài học');
+            response(res, 'Lấy thành công 1 bài học', lesson);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -125,7 +125,7 @@ class AppController {
             let lessons = await Lesson.find({}).populate('category', 'name');
             // let deletedCount = await Lesson.countDocumentsDeleted();
             lessons = lessons.map(lesson => lesson.toObject());
-            response(res, lessons, 'Lấy thành công tất cả bài học');
+            response(res, 'Lấy thành công tất cả bài học', lessons);
         }
         catch (err) {
             error(res, 'Không thành công');
@@ -137,7 +137,7 @@ class AppController {
         try {
             let deletedLessons = await Lesson.findDeleted({});
             deletedLessons = deletedLessons.map(l => l.toObject());
-            response(res, deletedLessons, 'Lấy thành công tất cả bài học đã xoá');
+            response(res, 'Lấy thành công tất cả bài học đã xoá', deletedLessons);
 
         }
         catch (err) {
