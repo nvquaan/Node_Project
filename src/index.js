@@ -5,7 +5,7 @@ const handlebars = require("express-handlebars");
 const methodOverride = require("method-override");
 const SortMiddleware = require("./app/middlewares/SortMiddleware");
 const app = express();
-const port = 5000;
+const port = 5008;
 const route = require("./routes/index.route");
 const db = require("./config/db");
 
@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
   // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'x-access-token, Origin, Content-Type, Accept');
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)

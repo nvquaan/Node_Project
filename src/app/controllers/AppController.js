@@ -3,7 +3,6 @@ const Course = require("../models/Course");
 const Lesson = require("../models/Lesson");
 const { response, updateResponse } = require('../lib/response');
 const { error } = require('../lib/error');
-
 class AppController {
     //Categories
     // [GET] /categories/:slug
