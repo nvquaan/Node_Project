@@ -1,4 +1,4 @@
-const { response, updateResponse } = require('../lib/response');
+const { response } = require('../lib/response');
 const { error } = require('../lib/error');
 class UserController {
     allAccess(req, res) {

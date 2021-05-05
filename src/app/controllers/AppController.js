@@ -1,7 +1,7 @@
 const Category = require("../models/Category");
 const Course = require("../models/Course");
 const Lesson = require("../models/Lesson");
-const { response, updateResponse } = require('../lib/response');
+const { response } = require('../lib/response');
 const { error } = require('../lib/error');
 class AppController {
     //Categories
@@ -99,7 +99,7 @@ class AppController {
             let course = await Course.findOne({slug: req.params.slug});
             course.rate = +req.body.rate;
             await course.save();
-            updateResponse(res, 'Update thành công');
+            response(res, 'Update thành công');
         }
         catch (err) {
             error(res, 'Không thành công');
