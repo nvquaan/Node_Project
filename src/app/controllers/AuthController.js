@@ -35,22 +35,22 @@ class AuthController {
             if (!user) {
                 return error400(res, 'Không tìm thấy username');
             }
-            var passwordIsValid = bcrypt.compareSync(
+            let passwordIsValid = bcrypt.compareSync(
                 req.body.password,
                 user.password
             );
             if (!passwordIsValid) {
-                return res.status(401).send({
+                return res.status(401).json({
                     success: false,
                     accessToken: null,
                     message: "Sai mật khẩu!"
                 });
             }
-            var token = jwt.sign({ id: user.id }, config.secret, {
+            let token = jwt.sign({ id: user.id }, config.secret, {
                 expiresIn: 86400 // 24 hours
             });
 
-            var roles = [];
+            let roles = [];
             for (let role of user.roles) {
                 roles.push("ROLE_" + role.name.toUpperCase());
             }
@@ -66,6 +66,14 @@ class AuthController {
             error(res, 'Đăng nhập không thành công');
         }
     };
+    checkSignin(req, res, next){
+        try {
+            response(res, 'Verify thành công');
+        }
+        catch (err){
+            next(err);
+        }
+    }
 }
 
 module.exports = new AuthController();

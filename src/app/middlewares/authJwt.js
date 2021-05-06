@@ -8,11 +8,16 @@ function verifyToken(req, res, next) {
     let token = req.headers["x-access-token"];
 
     if (!token) {
-        error400(res, "No token provided!");
+        error400(res, "Không có token");
     }
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
-            error400(res, "Unauthorized");
+            res.json({
+                code: 401,
+                success: false,
+                message: 'Token sai hoặc hết hạn',
+                data: null,
+            })
         }
         req.userId = decoded.id;
         next();

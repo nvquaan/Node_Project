@@ -1,5 +1,5 @@
 exports.error = (res, message) => {
-    return res.send({
+    return res.json({
         code: 500,
         success: false,
         message,
@@ -8,7 +8,7 @@ exports.error = (res, message) => {
 }
 
 exports.error400 = (res, message) => {
-    return res.send({
+    return res.json({
         code: 400,
         success: false,
         message,

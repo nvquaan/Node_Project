@@ -2,7 +2,7 @@ const { response } = require('../lib/response');
 const { error } = require('../lib/error');
 class UserController {
     allAccess(req, res) {
-        res.status(200).send("Public Content.");
+        res.status(200).json("Public Content.");
     };
 
     userBoard(req, res) {
@@ -10,11 +10,11 @@ class UserController {
     };
 
     adminBoard(req, res) {
-        res.status(200).send("Admin Content.");
+        res.status(200).json("Admin Content.");
     };
 
     moderatorBoard(req, res) {
-        res.status(200).send("Moderator Content.");
+        res.status(200).json("Moderator Content.");
     };
 }
 
