@@ -10,7 +10,6 @@ function verifyToken(req, res, next) {
     if (!token) {
         error400(res, "No token provided!");
     }
-
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
             error400(res, "Unauthorized");
