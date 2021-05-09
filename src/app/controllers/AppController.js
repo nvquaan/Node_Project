@@ -112,14 +112,7 @@ class AppController {
         course: course._id,
       });
       await rate.save();
-      //tính trung bình rate của khoá học: lấy tất cả các rates có idcourse -> tính trung bình
-      let rates = await Rate.find({ course: course._id });
-      rates = rates.map((r) => r.toObject());
-      let rateAvg = rates.reduce((value, item) => {
-        return value + item.rate;
-      }, 0);
-      course.rateAvg = +(rateAvg / rates.length).toFixed(1);
-      await course.save();
+      updateRateAvgOfCourse(req.params.slug);
       response(res, "Vote thành công");
     } catch (err) {
       error(res, "Vote không thành công");
@@ -133,11 +126,25 @@ class AppController {
       rateData.rate = req.body.rate;
       rateData.message = req.body.message;
       await rateData.save();
+      updateRateAvgOfCourse(req.params.slug);
       response(res, "Update vote thành công");
     } catch (err) {
       error(res, "Update vote không thành công");
     }
   }
+
+  //[DELETE] /courses/rate/:slug/:id
+  async deleteRateCourse(req, res, next) {
+    try {
+      await Rate.deleteOne({ _id: req.params.id });
+      updateRateAvgOfCourse(req.params.slug);
+      response(res, "Xoá vote thành công");
+    }
+    catch (err) {
+      error(res, "Xoas vote không thành công");
+    }
+  }
+
   //LESSONS
   // [GET] /lessons/:slug
   async getOneLesson(req, res, next) {
@@ -174,4 +181,20 @@ class AppController {
   }
 }
 
+//tính trung bình rate của khoá học: lấy tất cả các rates có idcourse -> tính trung bình
+async function updateRateAvgOfCourse(slug) {
+  let course = await Course.findOne({ slug: slug });
+  let rates = await Rate.find({ course: course._id });
+  if(rates.length > 0) {
+    rates = rates.map((r) => r.toObject());
+    let rateAvg = rates.reduce((value, item) => {
+      return value + item.rate;
+    }, 0);
+    course.rateAvg = +(rateAvg / rates.length).toFixed(1);
+  }
+  else {
+    course.rateAvg = 0;
+  }
+  await course.save();
+}
 module.exports = new AppController();

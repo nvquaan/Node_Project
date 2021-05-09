@@ -57,10 +57,26 @@ async function isModerator(req, res, next) {
         error(res, err);
     }
 };
-
+async function isModeratorOrAdmin(req, res, next) {
+    try {
+        let user = await User.findById(req.userId);
+        let roles = await Role.find({ _id: { $in: user.roles } });
+        for (let role of roles) {
+            if (role.name === "moderator" || role.name === "admin") {
+                next();
+                return;
+            }
+        }
+        error400(res, "Require Moderator or Admin Role!");
+    }
+    catch (err) {
+        error(res, err);
+    }
+};
 const authJwt = {
     verifyToken,
     isAdmin,
-    isModerator
+    isModerator,
+    isModeratorOrAdmin
 };
 module.exports = authJwt;

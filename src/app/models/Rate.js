@@ -7,6 +7,9 @@ const RateSchema = new Schema(
         rate: {type: Number},
         course: {type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true},
         user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
+    },
+    {
+        timestamps: true,
     }
 );
 

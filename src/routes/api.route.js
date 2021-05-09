@@ -26,6 +26,7 @@ router.get('/trash/courses/', appController.trashCourses);
 router.put('/courses/rate/:slug', [authJwt.verifyToken], appController.rateCourse);
 router.put('/courses/rate-edit/:slug', [authJwt.verifyToken], appController.updateRateCourse);
 router.get('/courses/rate/:slug', appController.getAllRates);
+router.delete('/courses/rate/:slug/:id',[authJwt.verifyToken, authJwt.isModeratorOrAdmin], appController.deleteRateCourse);
 
 //LESSONS
 router.get('/lessons/:slug', appController.getOneLesson);
