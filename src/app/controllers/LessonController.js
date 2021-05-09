@@ -31,6 +31,7 @@ class LessonController {
             const lesson = new Lesson(formData);
             const course = await Course.findOne({ _id: formData.course });
             course.lessonNumber++;
+            course.time += +formData.time
             await course.save();
             await lesson.save();
             res.redirect("/me/stored/lessons");
@@ -58,8 +59,20 @@ class LessonController {
             let formData = { ...req.body };
             let lesson = await Lesson.findOne({_id: req.params.id});
             let courseId = lesson.course;
+            let time = lesson.time;
             if(courseId != formData.course){
-                updateNumber(Course, 'lessonNumber', courseId, formData.course);
+                updateNumber(Course, 'lessonNumber', courseId, formData.course); // update so luong bai hoc: cu-- moi++
+                let oldCourse = await Course.findOne({_id: courseId}); //update so phut course cu~
+                oldCourse.time -= time;
+                let newCourse = await Course.findOne({_id: formData.course}); //update so phut course cu~
+                newCourse.time += time;
+                await oldCourse.save();
+                await newCourse.save();
+            }
+            else if(time != +formData.time){ //neu update so phut
+                let course = await Course.findOne({_id: courseId}); //update tong so phut course
+                course.time = course.time - time + +formData.time; //tong phut = tong phut - so phut cu + so phut moi
+                await course.save();
             }
             await Lesson.updateOne({ _id: req.params.id }, formData);
             res.redirect("/me/stored/lessons");
@@ -71,6 +84,7 @@ class LessonController {
     //[DELETE] /lessons/:id SOFT DELETE
     async delete(req, res, next) {
         try {
+
             await Lesson.delete({ _id: req.params.id });
             res.redirect("back");
         } catch (err) {

@@ -8,7 +8,7 @@ const LessonSchema = new Schema(
         name: {type: String},
         description: {type: String},
         imageUrl: {type: String},
-        time: {type: String},
+        time: {type: Number},
         slug: {type: String, slug: "name", unique: true},
         course: {type: mongoose.Schema.Types.ObjectID, ref: 'Course', required: true}
     },

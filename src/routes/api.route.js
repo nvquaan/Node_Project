@@ -22,7 +22,10 @@ router.get('/courses/:slug/lessons', appController.getAllLessonsOfCourse);
 router.get('/courses/:slug', appController.getOneCourse);
 router.get('/courses/', appController.getAllCourses);
 router.get('/trash/courses/', appController.trashCourses);
-router.put('/courses/:slug', [authJwt.verifyToken], appController.updateOneCourse)
+//Rate course
+router.put('/courses/rate/:slug', [authJwt.verifyToken], appController.rateCourse);
+router.put('/courses/rate-edit/:slug', [authJwt.verifyToken], appController.updateRateCourse);
+router.get('/courses/rate/:slug', appController.getAllRates);
 
 //LESSONS
 router.get('/lessons/:slug', appController.getOneLesson);

@@ -10,11 +10,11 @@ const CourseSchema = new Schema(
         imageUrl: {type: String},
         lessonNumber: {type: Number, default:0},
         level: {type: String},
-        time: {type: String},
-        rate: {type: Number, default:0},
+        time: {type: Number},
+        rateAvg: {type: Number, default:0},
         cost: {type: Number},
         slug: {type: String, slug: "name", unique: true},
-        category: {type: mongoose.Schema.Types.ObjectID, ref: 'Category', required: true}
+        category: {type: mongoose.Schema.Types.ObjectID, ref: 'Category', required: true},
     },
     {
         timestamps: true,
