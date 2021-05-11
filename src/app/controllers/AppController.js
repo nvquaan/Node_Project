@@ -74,7 +74,19 @@ class AppController {
       courses = courses.map((course) => course.toObject());
       response(res, "Lấy thành công tất cả khoá học", courses);
     } catch (err) {
-      error(res, "Không thành công");
+      error(res, "Lấy tất cả khoá học không thành công");
+    }
+  }
+
+  //[GET] /courses/hot
+  async getAllHotCourse(req, res, next) {
+    try {
+      let courses = await Course.find({}).populate("category", "name");
+      courses = courses.map((course) => course.toObject());
+      courses = courses.sort((a, b) => b.rateAvg - a.rateAvg);
+      response(res, "Lấy thành công tất cả khoá học HOT", courses);
+    } catch (err) {
+      error(res, "Lấy tất cả khoá học HOT không thành công");
     }
   }
 
@@ -139,8 +151,7 @@ class AppController {
       await Rate.deleteOne({ _id: req.params.id });
       updateRateAvgOfCourse(req.params.slug);
       response(res, "Xoá vote thành công");
-    }
-    catch (err) {
+    } catch (err) {
       error(res, "Xoas vote không thành công");
     }
   }
@@ -185,14 +196,13 @@ class AppController {
 async function updateRateAvgOfCourse(slug) {
   let course = await Course.findOne({ slug: slug });
   let rates = await Rate.find({ course: course._id });
-  if(rates.length > 0) {
+  if (rates.length > 0) {
     rates = rates.map((r) => r.toObject());
     let rateAvg = rates.reduce((value, item) => {
       return value + item.rate;
     }, 0);
     course.rateAvg = +(rateAvg / rates.length).toFixed(1);
-  }
-  else {
+  } else {
     course.rateAvg = 0;
   }
   await course.save();
