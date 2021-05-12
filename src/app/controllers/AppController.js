@@ -2,6 +2,7 @@ const Category = require("../models/Category");
 const Course = require("../models/Course");
 const Lesson = require("../models/Lesson");
 const Rate = require("../models/Rate");
+const User = require("../models/User");
 const { response } = require("../lib/response");
 const { error } = require("../lib/error");
 class AppController {
@@ -154,6 +155,21 @@ class AppController {
     } catch (err) {
       error(res, "Xoas vote không thành công");
     }
+  }
+
+  //[POST] /courses/buy
+  async buyCourses(req, res, next){
+      try {
+        let user = await User.findOne({username: req.body.username});
+        // console.log(user);
+        user.courses.push(...req.body.coursesId);
+        user.wallet -= req.body.total;
+        await user.save();
+        response(res, 'Mua thành công', user);
+      }
+      catch (err) {
+          error(res, 'Mua không thành công')
+      }
   }
 
   //LESSONS

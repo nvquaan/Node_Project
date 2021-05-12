@@ -9,9 +9,7 @@ const { authJwt } = require("../app/middlewares");
 //AUTH
 router.post('/auth/signup', [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted], authController.signup);
 router.post('/auth/signin', authController.signin);
-router.get('/auth/check-signin', [authJwt.verifyToken], authController.checkSignin);
-//TEST Quyen
-router.get('/test/user', [authJwt.verifyToken], userController.userBoard);
+router.get('/auth/check-signin/:slug', [authJwt.verifyToken], authController.checkSignin);
 //CATEGORIES
 router.get('/categories/:slug', appController.getOneCategory);
 router.get('/categories', appController.getAllCategories);
@@ -19,6 +17,7 @@ router.get('/trash/categories', appController.trashCategories);
 
 //COURSES
 router.get('/courses/hot', appController.getAllHotCourse);
+router.post('/courses/buy', appController.buyCourses);
 router.get('/courses/:slug/lessons', appController.getAllLessonsOfCourse);
 router.get('/courses/:slug', appController.getOneCourse);
 router.get('/courses/', appController.getAllCourses);

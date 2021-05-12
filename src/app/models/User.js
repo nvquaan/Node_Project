@@ -9,7 +9,13 @@ const UserSchema = new Schema(
         roles: [{
             type: mongoose.Schema.Types.ObjectID,
             ref: 'Role'
-        }]
+        }],
+        courses: [{
+            type: mongoose.Schema.Types.ObjectID,
+            ref: 'Course',
+            default: [],
+        }],
+        wallet: {type: Number, default: 10000000}
     }
 );
 

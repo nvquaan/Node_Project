@@ -13,7 +13,8 @@ class AuthController {
             const user = new User({
                 username: req.body.username,
                 email: req.body.email,
-                password: bcrypt.hashSync(req.body.password, 8)
+                password: bcrypt.hashSync(req.body.password, 8),
+                wallet: req.body.wallet,
             });
             if (req.body.roles) {
                 let roles = await Role.find({ name: { $in: req.body.roles } });
@@ -59,6 +60,8 @@ class AuthController {
                 username: user.username,
                 email: user.email,
                 roles: roles,
+                wallet: user.wallet,
+                courses: user.courses,
                 accessToken: token
             })
         }
@@ -66,9 +69,10 @@ class AuthController {
             error(res, 'Đăng nhập không thành công');
         }
     };
-    checkSignin(req, res, next){
+    async checkSignin(req, res, next){
         try {
-            response(res, 'Verify thành công');
+            let user = await User.findOne({ username: req.params.slug }).populate("roles", "-__v");
+            response(res, 'Verify thành công', user);
         }
         catch (err){
             next(err);
