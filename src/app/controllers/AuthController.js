@@ -41,11 +41,8 @@ class AuthController {
                 user.password
             );
             if (!passwordIsValid) {
-                return res.status(401).json({
-                    success: false,
-                    accessToken: null,
-                    message: "Sai mật khẩu!"
-                });
+                return error400(res, 'Sai mật khẩu!');
+
             }
             let token = jwt.sign({ id: user.id }, config.secret, {
                 expiresIn: 86400 // 24 hours
