@@ -161,11 +161,20 @@ class AppController {
   async buyCourses(req, res, next){
       try {
         let user = await User.findOne({username: req.body.username});
-        // console.log(user);
-        user.courses.push(...req.body.coursesId);
+        req.body.coursesId.forEach(id => {
+            user.courses.push({
+                course: id,
+                date: req.body.date,
+            });
+        })
+        
         user.wallet -= req.body.total;
         await user.save();
-        response(res, 'Mua thành công', user);
+        let result = await User.findOne({ username: req.body.username}).populate({
+            path: 'courses',
+            populate: { path: 'course', select: ['name', 'imageUrl', 'cost']}
+        })
+        response(res, 'Mua thành công', result);
       }
       catch (err) {
           error(res, 'Mua không thành công')

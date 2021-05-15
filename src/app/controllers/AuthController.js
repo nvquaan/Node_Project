@@ -68,11 +68,14 @@ class AuthController {
     };
     async checkSignin(req, res, next){
         try {
-            let user = await User.findOne({ username: req.params.slug }).populate("roles", "-__v");
+            let user = await User.findOne({ username: req.params.slug }).populate("roles", "-__v").populate({
+                path: 'courses',
+                populate: { path: 'course', select: ['name', 'imageUrl', 'cost']}
+            });
             response(res, 'Verify thành công', user);
         }
         catch (err){
-            next(err);
+            error(res, 'Có lỗi xảy ra!');
         }
     }
 }

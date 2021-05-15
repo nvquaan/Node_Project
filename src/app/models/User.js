@@ -11,9 +11,11 @@ const UserSchema = new Schema(
             ref: 'Role'
         }],
         courses: [{
-            type: mongoose.Schema.Types.ObjectID,
-            ref: 'Course',
-            default: [],
+            course: {
+                type: mongoose.Schema.Types.ObjectID,
+                ref: 'Course',
+            },
+            date: {type: String, default:''},
         }],
         wallet: {type: Number, default: 10000000}
     }
