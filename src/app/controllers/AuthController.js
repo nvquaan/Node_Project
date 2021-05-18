@@ -70,7 +70,7 @@ class AuthController {
         try {
             let user = await User.findOne({ username: req.params.slug }).populate("roles", "-__v").populate({
                 path: 'courses',
-                populate: { path: 'course', select: ['name', 'imageUrl', 'cost']}
+                populate: { path: 'course', select: ['name', 'imageUrl', 'cost', 'slug']}
             });
             response(res, 'Verify thành công', user);
         }

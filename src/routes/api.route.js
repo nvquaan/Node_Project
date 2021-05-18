@@ -17,8 +17,9 @@ router.get('/trash/categories', appController.trashCategories);
 
 //COURSES
 router.get('/courses/hot', appController.getAllHotCourse);
-router.post('/courses/buy', appController.buyCourses);
-router.get('/courses/:slug/lessons', appController.getAllLessonsOfCourse);
+router.post('/courses/search', appController.searchCourses);
+router.post('/courses/buy', [authJwt.verifyToken], appController.buyCourses);
+router.get('/courses/:slug/lessons', [authJwt.verifyToken], appController.getAllLessonsOfCourse);
 router.get('/courses/:slug', appController.getOneCourse);
 router.get('/courses/', appController.getAllCourses);
 router.get('/trash/courses/', appController.trashCourses);
