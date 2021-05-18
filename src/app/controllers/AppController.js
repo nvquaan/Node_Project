@@ -165,7 +165,7 @@ class AppController {
             updateRateAvgOfCourse(req.params.slug);
             response(res, "Xoá vote thành công");
         } catch (err) {
-            error(res, "Xoas vote không thành công");
+            error(res, "Xoá vote không thành công");
         }
     }
 

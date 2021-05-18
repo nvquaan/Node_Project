@@ -1,9 +1,85 @@
-<div class="mt-4">
-    <div class="row">
-        <div class="col-lg-9">
-            <h2>{{course.name}}</h2>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{course.videoId}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <p>{{course.description}}</p>
+<form name="container-form" class="mt-4" method="POST" action="/courses/handle-form-actions">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>{{course.name}}</h2>
+            </div>
+            <div class="col-lg-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Nội dung</th>
+                            <th scope="col">Đánh giá</th>
+                            <th scope="col">Ngày đánh giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each rates}}
+                        <tr>
+                            <th scope="row">{{sum @index 1}}</th>
+                            <td>{{this.user.username}}</td>
+                            <td>{{this.message}}</td>
+                            <td>{{this.rate}}/5</td>
+                            <td>{{this.updatedAt}}</td>
+                            <td>
+                                <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
+                                    data-target="#delete-rate">Xoá</a>
+                            </td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                Khoá học này chưa có đánh giá nào.
+                            </td>
+                        </tr>
+
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="delete-rate" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xoá đánh giá</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn chắc chắn muốn xoá <span id="countDelete"></span> đánh giá này?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-delete-rate" type="button" class="btn btn-danger">Xoá bỏ</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+            </div>
         </div>
     </div>
 </div>
+
+<form method="POST" name="delete-rate-form" action=""></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        //Khi bam vao nut xoa
+        var rateId;
+        var deleteForm = document.forms['delete-rate-form'];
+        var btnDeleteRate = document.getElementById('btn-delete-rate');
+        var containerForm = document.forms['container-form'];
+
+        $('#delete-rate').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            rateId = button.data('id');
+        })
+        btnDeleteRate.onclick = function () {
+            deleteForm.action = '/courses/rates/' + rateId + '?_method=DELETE';
+            deleteForm.submit();
+        }
+    });
+</script>

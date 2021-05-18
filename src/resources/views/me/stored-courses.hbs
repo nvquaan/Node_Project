@@ -57,8 +57,9 @@
                 <td>{{this.level}}</td>
                 <td>{{this.time}}</td>
                 <td>{{this.cost}}</td>
-                <td>{{this.rateAvg}}</td>
+                <td>{{this.rateAvg}}/5</td>
                 <td>
+                    <a href="/courses/{{this._id}}/rates" class="btn btn-link">Xem đánh giá</a>
                     <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
                     <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
                        data-target="#delete-course">Xoá</a>

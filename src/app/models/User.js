@@ -5,6 +5,10 @@ const UserSchema = new Schema(
     {
         username: {type: String},
         email: {type: String},
+        fullname: {type: String},
+        age: {type: Number},
+        gender: {type: String},
+        phone: {type: Number},
         password: {type: String},
         roles: [{
             type: mongoose.Schema.Types.ObjectID,
