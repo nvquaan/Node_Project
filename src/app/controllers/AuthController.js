@@ -10,11 +10,11 @@ const Role = require("../models/Role");
 class AuthController {
     async signup(req, res) {
         try {
+            let formData = req.body;
+            formData.password = bcrypt.hashSync(req.body.password, 8);
+            console.log(formData);
             const user = new User({
-                username: req.body.username,
-                email: req.body.email,
-                password: bcrypt.hashSync(req.body.password, 8),
-                wallet: req.body.wallet,
+                ...formData
             });
             if (req.body.roles) {
                 let roles = await Role.find({ name: { $in: req.body.roles } });
@@ -57,8 +57,11 @@ class AuthController {
                 id: user._id,
                 username: user.username,
                 email: user.email,
+                fullname: user.fullname,
+                age: user.age,
+                gender: user.gender,
+                phone: user.phone,
                 roles: roles,
-                wallet: user.wallet,
                 courses: user.courses,
                 accessToken: token
             })
@@ -69,11 +72,14 @@ class AuthController {
     };
     async checkSignin(req, res, next){
         try {
-            let user = await User.findOne({ username: req.params.slug }).populate("roles", "-__v");
+            let user = await User.findOne({ username: req.params.slug }).populate("roles", "-__v").populate({
+                path: 'courses',
+                populate: { path: 'course', select: ['name', 'imageUrl', 'cost', 'slug']}
+            });
             response(res, 'Verify thành công', user);
         }
         catch (err){
-            next(err);
+            error(res, 'Có lỗi xảy ra!');
         }
     }
 }

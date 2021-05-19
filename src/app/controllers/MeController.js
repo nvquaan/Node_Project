@@ -28,7 +28,6 @@ class MeController {
             next(err);
         }
     }
-
     //[GET] me/stored/categories
     async storedCategories(req, res, next) {
         try {
