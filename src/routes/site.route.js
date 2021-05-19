@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-
 const siteController = require('../app/controllers/SiteController');
+const { auth } = require("../app/middlewares");
 
 
-router.get('/login', siteController.login);
-router.get('/', siteController.getAllCourses);
+router.get('/', siteController.login);
+router.get('/signout', siteController.logout);
+router.post('/signin', siteController.signin);
+router.get('/home', [auth.isLoggedIn], siteController.getAllCourses);
 
 module.exports = router;

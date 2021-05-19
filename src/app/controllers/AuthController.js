@@ -47,6 +47,7 @@ class AuthController {
             let token = jwt.sign({ id: user.id }, config.secret, {
                 expiresIn: 86400 // 24 hours
             });
+            // req.session.user = user;
 
             let roles = [];
             for (let role of user.roles) {

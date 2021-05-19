@@ -10,7 +10,13 @@ const route = require("./routes/index.route");
 const db = require("./config/db");
 const cors = require('cors')
 app.use(express.static(path.join(__dirname, "public"))); //static file
-
+const session = require('express-session');
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+}))
 app.use(
   express.urlencoded({
     extended: true,

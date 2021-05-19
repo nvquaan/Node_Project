@@ -24,6 +24,7 @@ function verifyToken(req, res, next) {
     });
 };
 
+
 async function isAdmin(req, res, next) {
     try {
         let user = await User.findById(req.userId);
@@ -73,10 +74,11 @@ async function isModeratorOrAdmin(req, res, next) {
         error(res, err);
     }
 };
+
 const authJwt = {
     verifyToken,
     isAdmin,
     isModerator,
-    isModeratorOrAdmin
+    isModeratorOrAdmin,
 };
 module.exports = authJwt;

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { auth } = require("../app/middlewares");
 
 const meController = require('../app/controllers/MeController');
 router.get('/trash/courses', meController.trashCourses);
