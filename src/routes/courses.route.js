@@ -13,7 +13,7 @@ router.delete('/:id', courseController.delete);
 router.delete('/:id/force-delete', courseController.forceDelete);
 router.patch('/:id/restore', courseController.restore);
 router.get('/:id/rates', courseController.getAllRatesOfCourse);
-router.delete('/rates/:id', courseController.deleteRate);
 router.get('/:slug', courseController.showCourse);
+router.delete('/rates/:id', courseController.deleteRate);
 
 module.exports = router;

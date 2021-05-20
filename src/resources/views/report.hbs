@@ -1,90 +1,150 @@
 <div class="report-container">
     <div class="row">
-        <div class="col-xl-12 mt-4 text-center">
-            <h3>Báo cáo theo danh mục khoá học</h3>
-            <canvas id="chartCategory" style="max-height:350px;"></canvas>
+        <div class="col-xl-12 my-5 text-center">
+            <h3 class="mb-3">Báo cáo theo danh mục khoá học</h3>
+            <div class="card">
+                <canvas id="chartCategory" style="max-height:350px;"></canvas>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xl-12 mt-4 text-center">
-            <h3>Báo cáo theo khoá học</h3>
+            <h3 class="mb-3">Báo cáo theo khoá học</h3>
             <div class="row">
                 <div class="col-xl-6">
-                    <canvas id="chartCourse1" style="max-height:350px;"></canvas>
+                    <div class="card">
+                        <canvas id="chartCourse1" style="max-height:350px;"></canvas>
+                    </div>
                 </div>
                 <div class="col-xl-6">
-                    <canvas id="chartCourse2" style="max-height:350px;"></canvas>
+                    <div class="card">
+                        <canvas id="chartCourse2" style="max-height:350px;"></canvas>
+                    </div>
+                </div>
+                <div class="col-xl-12 my-5">
+                    <div class="card">
+                        <canvas id="chartRate" style="max-height:350px;"></canvas>
+                    </div>
+                </div>
+                <div class="col-xl-12 my-5">
+                    <div class="card">
+                        <canvas id="chartRate2" style="max-height:350px;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-{{!-- chart category --}}
+{{!-- doughnut chart --}}
+<script>
+    function DoughnutChart(labels, data, title) {
+        const dataChart = {
+            labels: labels,
+            datasets: [{
+                label: '',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132)',
+                    'rgba(255, 159, 64)',
+                    'rgba(255, 205, 86)',
+                    'rgba(75, 192, 192)',
+                    'rgba(54, 162, 235)',
+                    'rgba(153, 102, 255)',
+                    'rgba(201, 203, 207)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        return configChart = {
+            type: 'doughnut',
+            data: dataChart,
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: title,
+                    },
+                    legend: {
+                        position: 'bottom',
+                    },
+                }
+            }
+        };
+    }
+</script>
+
+{{!-- Bar chart --}}
+<script>
+    function BarChart(label, data, title, dataSetLabel) {
+        const dataBar = {
+            labels: label,
+            datasets: [
+                {
+                    label: dataSetLabel,
+                    data: data,
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)'
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ],
+                    barPercentage: 0.5,
+                },
+            ],
+        };
+        return configBar = {
+            type: "bar",
+            data: dataBar,
+            options: {
+                indexAxis: "y",
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                    },
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "none",
+                    },
+                    title: {
+                        display: true,
+                        text: title,
+                    },
+                },
+            },
+        };
+    }
+</script>
+
 {{!-- Thông kê số khoá học trong từng danh mục khoá học --}}
 <script>
     const categories = {{{ categories }}};
     const labelsCategory = categories.map(c => c.name);
     const dataCategory = categories.map(c => c.courseNumber);
-    const dataBarCategory = {
-        labels: labelsCategory,
-        datasets: [
-            {
-                label: "Số khoá học",
-                data: dataCategory,
-                borderColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(255, 159, 64)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
-                    'rgb(153, 102, 255)',
-                    'rgb(201, 203, 207)'
-                ],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)'
-                ],
-                barPercentage: 0.5,
-            },
-        ],
-    };
-
-    const configBarCategory = {
-        type: "bar",
-        data: dataBarCategory,
-        options: {
-            indexAxis: "y",
-            elements: {
-                bar: {
-                    borderWidth: 2,
-                },
-            },
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "none",
-                },
-                title: {
-                    display: false,
-                    text: "Chart.js Horizontal Bar Chart",
-                },
-            },
-        },
-    };
-
+    const configBarCategory = BarChart(labelsCategory, dataCategory, 'Báo cáo theo số lượng khoá học', 'Số khoá học')
     let chartCategory = new Chart(document.getElementById("chartCategory"), configBarCategory);
 </script>
 
-{{!-- chart course --}}
-{{!-- Thống kê khoá học theo khoảng giá và theo mức độ--}}
+{{!-- Thống kê khoá học theo khoảng giá, theo mức độ, theo đánh giá--}}
+{{!------------ Theo khoảng giá --}}
 <script>
     const courses = {{{ courses }}};
+    console.log(courses);
+
     let cost = courses.map(c => c.cost).sort();
     let a = 0, b = 0, c = 0, d = 0;
     for (let i of cost) {
@@ -93,86 +153,53 @@
         else if (i >= 500000 && i < 700000) c++;
         else if (i >= 700000) d++;
     }
-    let data1 = [a, b, c, d];
-    const dataCost = {
-        labels: [
-            'Nhỏ hơn 300k',
-            'Từ 300k đến dưới 500k',
-            'Từ 500k đến dưới 700k',
-            'Từ 700k trở lên'
-        ],
-        datasets: [{
-            label: 'Báo cáo khoá học theo giá',
-            data: data1,
-            backgroundColor: [
-                'rgba(255, 99, 132)',
-                'rgba(255, 159, 64)',
-                'rgba(255, 205, 86)',
-                'rgba(75, 192, 192)',
-                'rgba(54, 162, 235)',
-                'rgba(153, 102, 255)',
-                'rgba(201, 203, 207)'
-            ],
-            hoverOffset: 4
-        }]
-    };
-    const configCost = {
-        type: 'doughnut',
-        data: dataCost,
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Báo cáo theo giá bán',
-                },
-                legend: {
-                    position: 'bottom',
-                },
-            }
-        }
-    };
+    let dataCost = [a, b, c, d];
+    let labelsCost = [
+        'Nhỏ hơn 300k',
+        'Từ 300k đến dưới 500k',
+        'Từ 500k đến dưới 700k',
+        'Từ 700k trở lên'
+    ];
+    let configCost = DoughnutChart(labelsCost, dataCost, 'Báo cáo theo khoảng giá');
     let chartCourse1 = new Chart(document.getElementById("chartCourse1"), configCost);
+</script>
+{{!-- ----------Theo mức độ --}}
+<script>
     let level = courses.map(c => c.level);
     let e = level.filter(l => l === 'Dễ').length;
     let f = level.filter(l => l === 'Trung bình').length;
     let g = level.filter(l => l === 'Nâng cao').length;
-    let data2 = [e, f, g];
-    const dataLevel = {
-        labels: [
-            'Dễ',
-            'Trung bình',
-            'Nâng cao',
-        ],
-        datasets: [{
-            label: 'Báo cáo khoá học theo cấp độ',
-            data: data2,
-            backgroundColor: [
-                'rgba(255, 99, 132)',
-                'rgba(255, 159, 64)',
-                'rgba(255, 205, 86)',
-                'rgba(75, 192, 192)',
-                'rgba(54, 162, 235)',
-                'rgba(153, 102, 255)',
-                'rgba(201, 203, 207)'
-            ],
-            hoverOffset: 4
-        }]
-    };
-    const configLevel = {
-        type: 'doughnut',
-        data: dataLevel,
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Báo cáo theo cấp độ',
-                },
-                legend: {
-                    position: 'bottom',
-                },
-            }
-        }
-    };
+    let dataLevel = [e, f, g];
+    let labelsLevel = [
+        'Dễ',
+        'Trung bình',
+        'Nâng cao',
+    ];
+    let configLevel = DoughnutChart(labelsLevel, dataLevel, 'Báo cáo theo cấp độ');
     let chartCourse2 = new Chart(document.getElementById("chartCourse2"), configLevel);
+</script>
+{{!-- ----------Theo đánh giá tất cả khoá học--}}
+<script>
+    let rates = {{{ rates }}};
+    let labelsRate = ['1⭐', '2⭐', '3⭐', '4⭐', '5⭐'];
+    let dataRate = [];
+    for (let i = 1; i <= 5; ++i) {
+        const val = rates.filter(r => r === i).length;
+        dataRate.push(val);
+    }
+    const configBarRate = BarChart(labelsRate, dataRate, 'Báo cáo theo đánh giá', 'Số đánh giá');
+    configBarRate.options.indexAxis = "x";
+    let chartRate = new Chart(document.getElementById("chartRate"), configBarRate);
+</script>
 
+{{!-- Theo đánh giá từng khoá học --}}
+<script>
+    let rateOfCourses = {{{ rateOfCourses }}};
+    let labelsrateOfCourses = rateOfCourses.map(r => r.name);
+    let datarateOfCourses = rateOfCourses.map(r => r.rateAvg);
+
+    const configBarRateOfCourses = BarChart(labelsrateOfCourses, datarateOfCourses, 'Đánh giá trung bình từng khoá học', 'Đánh giá trung bình');
+    configBarRateOfCourses.options.indexAxis = "x";
+    
+    let chartRateOfCourses = new Chart(document.getElementById("chartRate2"), configBarRateOfCourses);
 </script>

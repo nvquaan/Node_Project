@@ -44,7 +44,17 @@ class SiteController {
             }
         });
 
-        res.render("report", {categories: JSON.stringify(categories), courses: JSON.stringify(courses)});
+        let rates = await Rate.find({});
+        rates = rates.map(c => c.rate);
+
+        let rateOfCourses = await Course.find({});
+        rateOfCourses = rateOfCourses.map(r => {
+            return {
+                name: r.name,
+                rateAvg: r.rateAvg,
+            }
+        })
+        res.render("report", {categories: JSON.stringify(categories), courses: JSON.stringify(courses), rates: JSON.stringify(rates), rateOfCourses: JSON.stringify(rateOfCourses)});
     }
 
     logout (req, res, next) {
