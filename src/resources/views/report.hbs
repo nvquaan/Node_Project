@@ -1,0 +1,178 @@
+<div class="report-container">
+    <div class="row">
+        <div class="col-xl-12 mt-4 text-center">
+            <h3>Báo cáo theo danh mục khoá học</h3>
+            <canvas id="chartCategory" style="max-height:350px;"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 mt-4 text-center">
+            <h3>Báo cáo theo khoá học</h3>
+            <div class="row">
+                <div class="col-xl-6">
+                    <canvas id="chartCourse1" style="max-height:350px;"></canvas>
+                </div>
+                <div class="col-xl-6">
+                    <canvas id="chartCourse2" style="max-height:350px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- chart category --}}
+{{!-- Thông kê số khoá học trong từng danh mục khoá học --}}
+<script>
+    const categories = {{{ categories }}};
+    const labelsCategory = categories.map(c => c.name);
+    const dataCategory = categories.map(c => c.courseNumber);
+    const dataBarCategory = {
+        labels: labelsCategory,
+        datasets: [
+            {
+                label: "Số khoá học",
+                data: dataCategory,
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                barPercentage: 0.5,
+            },
+        ],
+    };
+
+    const configBarCategory = {
+        type: "bar",
+        data: dataBarCategory,
+        options: {
+            indexAxis: "y",
+            elements: {
+                bar: {
+                    borderWidth: 2,
+                },
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "none",
+                },
+                title: {
+                    display: false,
+                    text: "Chart.js Horizontal Bar Chart",
+                },
+            },
+        },
+    };
+
+    let chartCategory = new Chart(document.getElementById("chartCategory"), configBarCategory);
+</script>
+
+{{!-- chart course --}}
+{{!-- Thống kê khoá học theo khoảng giá và theo mức độ--}}
+<script>
+    const courses = {{{ courses }}};
+    let cost = courses.map(c => c.cost).sort();
+    let a = 0, b = 0, c = 0, d = 0;
+    for (let i of cost) {
+        if (i < 300000) a++;
+        else if (i >= 300000 && i < 500000) b++;
+        else if (i >= 500000 && i < 700000) c++;
+        else if (i >= 700000) d++;
+    }
+    let data1 = [a, b, c, d];
+    const dataCost = {
+        labels: [
+            'Nhỏ hơn 300k',
+            'Từ 300k đến dưới 500k',
+            'Từ 500k đến dưới 700k',
+            'Từ 700k trở lên'
+        ],
+        datasets: [{
+            label: 'Báo cáo khoá học theo giá',
+            data: data1,
+            backgroundColor: [
+                'rgba(255, 99, 132)',
+                'rgba(255, 159, 64)',
+                'rgba(255, 205, 86)',
+                'rgba(75, 192, 192)',
+                'rgba(54, 162, 235)',
+                'rgba(153, 102, 255)',
+                'rgba(201, 203, 207)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+    const configCost = {
+        type: 'doughnut',
+        data: dataCost,
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Báo cáo theo giá bán',
+                },
+                legend: {
+                    position: 'bottom',
+                },
+            }
+        }
+    };
+    let chartCourse1 = new Chart(document.getElementById("chartCourse1"), configCost);
+    let level = courses.map(c => c.level);
+    let e = level.filter(l => l === 'Dễ').length;
+    let f = level.filter(l => l === 'Trung bình').length;
+    let g = level.filter(l => l === 'Nâng cao').length;
+    let data2 = [e, f, g];
+    const dataLevel = {
+        labels: [
+            'Dễ',
+            'Trung bình',
+            'Nâng cao',
+        ],
+        datasets: [{
+            label: 'Báo cáo khoá học theo cấp độ',
+            data: data2,
+            backgroundColor: [
+                'rgba(255, 99, 132)',
+                'rgba(255, 159, 64)',
+                'rgba(255, 205, 86)',
+                'rgba(75, 192, 192)',
+                'rgba(54, 162, 235)',
+                'rgba(153, 102, 255)',
+                'rgba(201, 203, 207)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+    const configLevel = {
+        type: 'doughnut',
+        data: dataLevel,
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Báo cáo theo cấp độ',
+                },
+                legend: {
+                    position: 'bottom',
+                },
+            }
+        }
+    };
+    let chartCourse2 = new Chart(document.getElementById("chartCourse2"), configLevel);
+
+</script>

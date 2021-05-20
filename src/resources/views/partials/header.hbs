@@ -1,49 +1,70 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark site-header">
-    <a class="navbar-brand" href="/home">
+    <a class="navbar-brand" href="/home" style="position: absolute;">
         <i class="fas fa-home home-icon"></i>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse">
-        <div class="bell-noti">
-            <i class="fa fa-bell bell-noti-icon"></i>
-            <div class="bell-noti-status"></div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav w-100 justify-content-center">
+                <li class="nav-item dropdown mx-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Danh mục
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/categories/create">Thêm danh mục khoá học</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/me/stored/categories">Danh mục khoá học của tôi</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown mx-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Khoá học
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/courses/create">Thêm khoá học</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/me/stored/courses">Khoá học của tôi</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown mx-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bài học
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/lessons/create">Thêm bài học</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/me/stored/lessons">Bài học của tôi</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown mx-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Thao tác
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#loginForm">Đăng nhập</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/signout">Đăng xuất</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown mx-4">
+                    <a class="nav-link" href="/report" id="navbarDropdown" role="button">
+                        Báo cáo
+                    </a>
+                </li>
+            </ul>
         </div>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Chức năng
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/categories/create">Thêm danh mục khoá học</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/courses/create">Thêm khoá học</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/lessons/create">Thêm bài học học</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/me/stored/categories">Danh mục khoá học của tôi</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/me/stored/courses">Khoá học của tôi</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/me/stored/lessons">Bài học của tôi</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#loginForm">Đăng nhập</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#registerForm">Đăng ký</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/signout">Đăng xuất</a>
-                    <div class="dropdown-divider"></div>
-                </div>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" method="POST">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
 

@@ -6,7 +6,7 @@ async function isLoggedIn(req, res, next) {
             next();
             return;
         }
-        res.redirect("back");
+        res.redirect("/");
     }
     catch (err) {
         error(res, err);

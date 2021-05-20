@@ -1,4 +1,6 @@
 const Course = require("../models/Course");
+const Category = require("../models/Category");
+const Rate = require("../models/Rate");
 const User = require("../models/User");
 var bcrypt = require("bcryptjs");
 class SiteController {
@@ -23,6 +25,28 @@ class SiteController {
     login(req, res) {
         res.render("login");
     }
+
+    // [GET] /report -> vao trang bao cao
+    async report(req, res) {
+        let categories = await Category.find({});
+        categories = categories.map(c => {
+            return {
+                name: c.name,
+                courseNumber: c.courseNumber
+            }
+        });
+
+        let courses = await Course.find({});
+        courses = courses.map(c => {
+            return {
+                cost: c.cost,
+                level: c.level,
+            }
+        });
+
+        res.render("report", {categories: JSON.stringify(categories), courses: JSON.stringify(courses)});
+    }
+
     logout (req, res, next) {
         try {
             req.session.destroy();
