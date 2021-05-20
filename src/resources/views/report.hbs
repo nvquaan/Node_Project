@@ -28,7 +28,9 @@
                 </div>
                 <div class="col-xl-12 my-5">
                     <div class="card">
-                        <canvas id="chartRate2" style="max-height:350px;"></canvas>
+                        <div>
+                            <canvas id="chartRate2"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -199,7 +201,7 @@
     let datarateOfCourses = rateOfCourses.map(r => r.rateAvg);
 
     const configBarRateOfCourses = BarChart(labelsrateOfCourses, datarateOfCourses, 'Đánh giá trung bình từng khoá học', 'Đánh giá trung bình');
-    configBarRateOfCourses.options.indexAxis = "x";
+    configBarRateOfCourses.options.indexAxis = "y";
     
     let chartRateOfCourses = new Chart(document.getElementById("chartRate2"), configBarRateOfCourses);
 </script>
