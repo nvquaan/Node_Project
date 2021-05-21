@@ -33,6 +33,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-12 my-5">
+                    <div class="card">
+                        <div>
+                            <canvas id="chartCourse3"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -204,4 +211,12 @@
     configBarRateOfCourses.options.indexAxis = "y";
     
     let chartRateOfCourses = new Chart(document.getElementById("chartRate2"), configBarRateOfCourses);
+</script>
+
+{{!-- Báo cáo số bài học trong mỗi khoá học --}}
+<script>
+    let lessonNumber = courses.map(c => c.lessonNumber);
+    const configBarCourses = BarChart(labelsrateOfCourses, lessonNumber, 'Báo cáo số bài học trong từng khoá học', 'Số bài học');
+    let chartCourses = new Chart(document.getElementById("chartCourse3"), configBarCourses);
+
 </script>
