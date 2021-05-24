@@ -41,6 +41,7 @@ class SiteController {
             return {
                 cost: c.cost,
                 level: c.level,
+                lessonNumber: c.lessonNumber,
             }
         });
 
