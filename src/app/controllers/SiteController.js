@@ -91,7 +91,7 @@ class SiteController {
                 roles: roles,
             }
             req.session.user = user;
-            res.redirect("/home");
+            res.redirect("/report");
 
         }
         catch (err) {
