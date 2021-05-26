@@ -60,6 +60,7 @@ class AuthController {
                 fullname: user.fullname,
                 age: user.age,
                 gender: user.gender,
+                wallet: user.wallet,
                 phone: user.phone,
                 roles: roles,
                 courses: user.courses,
