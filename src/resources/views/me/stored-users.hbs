@@ -57,21 +57,21 @@
     </table>
 </form>
 
-{{!-- Confirm delete lesson--}}
-<div id="delete-lesson" class="modal" tabindex="-1" role="dialog">
+{{!-- Confirm delete user--}}
+<div id="delete-user" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Xoá bài học</h5>
+                <h5 class="modal-title">Xoá tài khoản</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Bạn chắc chắn muốn xoá <span id="countDelete"></span> bài học này?</p>
+                <p>Bạn chắc chắn muốn xoá <span id="countDelete"></span> tài khoản này?</p>
             </div>
             <div class="modal-footer">
-                <button id="btn-delete-lesson" type="button" class="btn btn-danger">Xoá bỏ</button>
+                <button id="btn-delete-user" type="button" class="btn btn-danger">Xoá bỏ</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
             </div>
         </div>
@@ -79,48 +79,27 @@
 </div>
 
 {{!-- Delete form--}}
-<form method="POST" name="delete-lesson-form" action=""></form>
+<form method="POST" name="delete-user-form" action=""></form>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         //Khi bam vao nut xoa
-        var lessonIds;
-        var deleteForm = document.forms['delete-lesson-form'];
-        var btnDeleteLesson = document.getElementById('btn-delete-lesson');
+        var userIds;
+        var deleteForm = document.forms['delete-user-form'];
+        var btnDeleteuser = document.getElementById('btn-delete-user');
         var checkBoxAll = $('#checkbox-all');
-        var lessonItemCheckbox = $('input[name="lessonIds[]"]');
+        var userItemCheckbox = $('input[name="userIds[]"]');
         var SubmitBtn = $('.submit-btn');
         var containerForm = document.forms['container-form'];
 
-        $('#delete-lesson').on('show.bs.modal', function (event) {
+        $('#delete-user').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
-            lessonIds = button.data('id');
+            userIds = button.data('id');
         })
 
-        btnDeleteLesson.onclick = function () {
-            deleteForm.action = '/lessons/' + lessonIds + '?_method=DELETE';
+        btnDeleteuser.onclick = function () {
+            deleteForm.action = '/users/' + userIds + '?_method=DELETE';
             deleteForm.submit();
         }
 
-        //checkbox all clicked
-        // checkBoxAll.change(function () {
-        //     lessonItemCheckbox.prop('checked', $(this).prop('checked'));
-        //     renderSubmitBtn()
-        // });
-        //
-        // lessonItemCheckbox.change(function () {
-        //     var isCheckedAll = $('input[name="lessonIds[]"]:checked').length === lessonItemCheckbox.length;
-        //     checkBoxAll.prop('checked', isCheckedAll);
-        //     renderSubmitBtn()
-        // })
-
-        //Re-render check all submit btn
-        // function renderSubmitBtn() {
-        //     var checkedCount = $('input[name="lessonIds[]"]:checked').length;
-        //     if (checkedCount) {
-        //         SubmitBtn.attr('disabled', false);
-        //     } else {
-        //         SubmitBtn.attr('disabled', true);
-        //     }
-        // }
     });
 </script>
