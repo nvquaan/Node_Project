@@ -6,12 +6,12 @@ async function checkDuplicateUsernameOrEmail(req, res, next) {
     try {
         let username = await User.findOne({ username: req.body.username });
         if (username) {
-            error400(res, "Failed! Username is already in use!");
+            error400(res, "Username đã tồn tại!");
             return;
         }
         let email = await User.findOne({ email: req.body.email });
         if (email) {
-            error400(res, "Failed! Email is already in use!");
+            error400(res, "Email đã tồn tại");
             return;
         }
         next();

@@ -9,4 +9,5 @@ router.get('/trash/categories', meController.trashCategories);
 router.get('/stored/categories', meController.storedCategories);
 router.get('/trash/lessons', meController.trashLessons);
 router.get('/stored/lessons', meController.storedLessons);
+router.get('/stored/users', meController.storedUsers);
 module.exports = router;

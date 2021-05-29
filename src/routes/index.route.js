@@ -7,10 +7,10 @@ const apiRouter = require('./api.route');
 const { auth } = require("../app/middlewares");
 
 function route(app){
-    app.use('/me', [auth.isLoggedIn], meRouter);
-    app.use('/courses', [auth.isLoggedIn], courseRouter);
-    app.use('/categories', [auth.isLoggedIn], categoryRouter);
-    app.use('/lessons', [auth.isLoggedIn], lessonRouter);
+    app.use('/me',  meRouter);
+    app.use('/courses',  courseRouter);
+    app.use('/categories',  categoryRouter);
+    app.use('/lessons',  lessonRouter);
     app.use('/api', apiRouter);
     app.use('/', siteRouter);
     

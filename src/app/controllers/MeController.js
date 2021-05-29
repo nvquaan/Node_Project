@@ -1,6 +1,7 @@
 const Course = require('../models/Course');
 const Category = require('../models/Category');
 const Lesson = require('../models/Lesson');
+const User = require('../models/User');
 const { PromiseProvider } = require('mongoose');
 
 class MeController {
@@ -78,6 +79,24 @@ class MeController {
         }
     }
 
+    // [GET] /me/stored/users
+    async storedUsers (req, res, next){
+        try {
+            let users = await User.find({}).populate("roles", "-__v").populate({
+                path: 'courses',
+                populate: { path: 'course', select: ['name']}
+            });
+            let dataUser = users.map(user => user.toObject());
+            dataUser.forEach(u => {
+                u.roles = u.roles.map (r=>r.name).join(',')
+                u.courses = u.courses.length;
+            })
+            res.render('me/stored-users', { dataUser });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = new MeController;
