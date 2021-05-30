@@ -11,10 +11,10 @@ router.post('/auth/signup', [verifySignUp.checkDuplicateUsernameOrEmail, verifyS
 router.post('/auth/signin', authController.signin);
 router.get('/auth/check-signin/:slug', [authJwt.verifyToken], authController.checkSignin);
 //CATEGORIES
+router.get('/categories/:slug/courses', appController.getAllCoursesOfCategory);
 router.get('/categories/:slug', appController.getOneCategory);
 router.get('/categories', appController.getAllCategories);
 router.get('/trash/categories', appController.trashCategories);
-
 //COURSES
 router.get('/courses/hot', appController.getAllHotCourse);
 router.post('/courses/search', appController.searchCourses);
@@ -33,4 +33,5 @@ router.delete('/courses/rate/:slug/:id',[authJwt.verifyToken, authJwt.isModerato
 router.get('/lessons/:slug', appController.getOneLesson);
 router.get('/lessons/', appController.getAllLessons);
 router.get('/trash/lessons/', appController.trashLessons);
+
 module.exports = router;

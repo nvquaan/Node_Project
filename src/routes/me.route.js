@@ -10,4 +10,5 @@ router.get('/stored/categories', meController.storedCategories);
 router.get('/trash/lessons', meController.trashLessons);
 router.get('/stored/lessons', meController.storedLessons);
 router.get('/stored/users', meController.storedUsers);
+router.put('/users/:id', meController.editRoleUser);
 module.exports = router;

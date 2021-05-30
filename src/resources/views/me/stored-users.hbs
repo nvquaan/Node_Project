@@ -3,36 +3,26 @@
         <h3>Danh sách tài khoản</h3>
         <a href="/me/trash/users">Thùng rác ({{deletedCount}})</a>
 
-        <div class="mt-4 d-flex align-items-center">
-            <select class="custom-select form-control-sm checkbox-select-all-options" name="action" required>
-                <option value="">Tất cả</option>
-                <option value="delete">Xoá</option>
-            </select>
-
-            <button class="btn btn-primary btn-sm submit-btn" disabled>Thực
-                hiện
-            </button>
-        </div>
     </div>
 
     <table class="table">
         <thead>
-        <tr>
-            <th scope="col" >STT</th>
-            <th scope="col">
-                Tên đăng nhập
-            </th>
-            <th scope="col">Họ tên</th>
-            <th scope="col">Ví</th>
-            <th scope="col">
-                Khoá học đã mua
-            </th>
-            <th scope="col">Quyền
-            </th>
-        </tr>
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">
+                    Tên đăng nhập
+                </th>
+                <th scope="col">Họ tên</th>
+                <th scope="col">Ví</th>
+                <th scope="col">
+                    Khoá học đã mua
+                </th>
+                <th scope="col">Quyền
+                </th>
+            </tr>
         </thead>
         <tbody>
-        {{#each dataUser}}
+            {{#each dataUser}}
             <tr>
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.username}}</td>
@@ -41,18 +31,19 @@
                 <td>{{this.courses}}</td>
                 <td>{{this.roles}}</td>
                 <td>
-                    <a href="/lessons/{{this._id}}/edit" class="btn btn-link">Sửa</a>
                     <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
-                       data-target="#delete-lesson">Xoá</a>
+                        data-target="#edit-role">Sửa quyền</a>
+                    <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
+                        data-target="#delete-user">Xoá</a>
                 </td>
             </tr>
-        {{else}}
+            {{else}}
             <tr>
                 <td colspan="5" class="text-center">
                     Chưa có user nào đăng ký
                 </td>
             </tr>
-        {{/each}}
+            {{/each}}
         </tbody>
     </table>
 </form>
@@ -80,26 +71,63 @@
 
 {{!-- Delete form--}}
 <form method="POST" name="delete-user-form" action=""></form>
+
+{{!-- Edit role form --}}
+
+{{!-- Confirm edit role user --}}
+<div id="edit-role" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sửa quyền tài khoản</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" name="edit-role-form" action="">
+                    <div class="">
+                    <select name="role" style="width: 100%; border: 1px solid black">
+                        <option value="user">User</option>
+                        <option value="moderator">Moderator</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button id="btn-edit-role" type="button" class="btn btn-danger">Thay đổi</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         //Khi bam vao nut xoa
-        var userIds;
-        var deleteForm = document.forms['delete-user-form'];
-        var btnDeleteuser = document.getElementById('btn-delete-user');
-        var checkBoxAll = $('#checkbox-all');
-        var userItemCheckbox = $('input[name="userIds[]"]');
-        var SubmitBtn = $('.submit-btn');
-        var containerForm = document.forms['container-form'];
-
+        let userIds;
+        let deleteForm = document.forms['delete-user-form'];
+        let editRoleForm = document.forms['edit-role-form'];
+        let btnDeleteuser = document.getElementById('btn-delete-user');
+        let btnEditRole = document.getElementById('btn-edit-role');
+        
         $('#delete-user').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
+            let button = $(event.relatedTarget)
             userIds = button.data('id');
         })
 
+        $('#edit-role').on('show.bs.modal', function (event) {
+            let button2 = $(event.relatedTarget)
+            userIds = button2.data('id');
+        })
         btnDeleteuser.onclick = function () {
-            deleteForm.action = '/users/' + userIds + '?_method=DELETE';
+            deleteForm.action = '/me/users/' + userIds + '?_method=DELETE';
             deleteForm.submit();
         }
-
+        btnEditRole.onclick = function () {
+            editRoleForm.action = '/me/users/' + userIds + '?_method=PUT';
+            editRoleForm.submit();
+        }
     });
 </script>

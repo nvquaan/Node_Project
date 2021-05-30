@@ -18,6 +18,18 @@ class AppController {
         }
     }
 
+    //[GET] /categories/:slug/courses
+    async getAllCoursesOfCategory(req, res, next){
+        try {
+            let category = await Category.findOne({ slug: req.params.slug });
+            let courses = await Course.find({category: category._id});
+            courses = courses.map(c=>c.toObject());
+            response(res, "Lấy thành công các khoá học thuộc danh mục", courses);
+        }
+        catch (err) {
+            error(res, "Lấy các khoá học thuộc danh mục không thành công")
+        }
+    }
     //[GET] /categories/
     async getAllCategories(req, res, next) {
         try {
