@@ -9,6 +9,7 @@ const { authJwt } = require("../app/middlewares");
 //AUTH
 router.post('/auth/signup', [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted], authController.signup);
 router.post('/auth/signin', authController.signin);
+router.post('/auth/forget-password', authController.forgetPassword);
 router.get('/auth/check-signin/:slug', [authJwt.verifyToken], authController.checkSignin);
 //CATEGORIES
 router.get('/categories/:slug/courses', appController.getAllCoursesOfCategory);

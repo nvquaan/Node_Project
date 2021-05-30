@@ -3,16 +3,17 @@ const { error, error400 } = require('../lib/error');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const config = require("../../config/db/auth.config");
+const sendEmail = require("../../helper/sendEmail");
 
 const User = require("../models/User");
 const Role = require("../models/Role");
 
+let randomNum;
 class AuthController {
     async signup(req, res) {
         try {
             let formData = req.body;
             formData.password = bcrypt.hashSync(req.body.password, 8);
-            console.log(formData);
             const user = new User({
                 ...formData
             });
@@ -71,15 +72,57 @@ class AuthController {
             error(res, 'Đăng nhập không thành công');
         }
     };
-    async checkSignin(req, res, next){
+
+    async forgetPassword(req, res, next) {
+        try {
+            let user = await User.findOne({ username: req.body.username });
+            if (!user) {
+                return error400(res, 'Không tìm thấy username');
+            }
+            if (user && req.body.step === 1) {
+                randomNum = Math.floor(Math.random() * 10000) + 1000;
+                let dataEmail = {
+                    user: {
+                        fullname: user.fullname,
+                        username: user.username,
+                        email: user.email
+                    },
+                    randomNum: randomNum
+                }
+                sendEmail.emailVerifyNumber(dataEmail); 
+                return response(res, 'Kiểm tra email để nhận mã xác thực');
+            }
+            if (user && req.body.step === 2) {
+                if (!req.body.verifyNumber) {
+                    return error400(res, 'Mã xác thực không hợp lệ');
+                }
+                if (randomNum != +req.body.verifyNumber) {
+                    return error400(res, 'Mã xác thực không hợp lệ');
+                } else {
+                    return response(res, 'Nhập mật khẩu mới');
+                }
+            }
+            if (user && req.body.step === 3) {
+                let user = await User.findOne({username: req.body.username});
+                user.password = bcrypt.hashSync(req.body.newPassword, 8);
+                await user.save();
+                return response(res, 'Đổi mật khẩu thành công');
+            }
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+    async checkSignin(req, res, next) {
         try {
             let user = await User.findOne({ username: req.params.slug }).populate("roles", "-__v").populate({
                 path: 'courses',
-                populate: { path: 'course', select: ['name', 'imageUrl', 'cost', 'slug']}
+                populate: { path: 'course', select: ['name', 'imageUrl', 'cost', 'slug'] }
             });
             response(res, 'Verify thành công', user);
         }
-        catch (err){
+        catch (err) {
             error(res, 'Có lỗi xảy ra!');
         }
     }

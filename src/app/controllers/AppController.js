@@ -5,6 +5,7 @@ const Rate = require("../models/Rate");
 const User = require("../models/User");
 const { response } = require("../lib/response");
 const { error } = require("../lib/error");
+const sendEmail = require("../../helper/sendEmail");
 class AppController {
     //Categories
     // [GET] /categories/:slug
@@ -19,11 +20,11 @@ class AppController {
     }
 
     //[GET] /categories/:slug/courses
-    async getAllCoursesOfCategory(req, res, next){
+    async getAllCoursesOfCategory(req, res, next) {
         try {
             let category = await Category.findOne({ slug: req.params.slug });
-            let courses = await Course.find({category: category._id});
-            courses = courses.map(c=>c.toObject());
+            let courses = await Course.find({ category: category._id });
+            courses = courses.map(c => c.toObject());
             response(res, "Lấy thành công các khoá học thuộc danh mục", courses);
         }
         catch (err) {
@@ -201,6 +202,27 @@ class AppController {
                 }
             );
             response(res, "Mua thành công", result);
+            //Gửi email
+            let courses = await Course.find({_id: {$in: req.body.coursesId}});
+            courses = courses.map(c => {
+                return {
+                    name: c.name,
+                    cost: c.cost+'vnđ'
+                }
+            })
+            let dataEmail = {
+                user: {
+                    fullname: result.fullname+'',
+                    email: result.email+'',
+                    wallet: result.wallet+'vnđ',
+                    username: result.username+'',
+                },
+                courses: courses,
+                total: req.body.total+'vnđ'
+            }
+
+            sendEmail.emailBought(dataEmail);
+
         } catch (err) {
             error(res, "Mua không thành công");
         }
