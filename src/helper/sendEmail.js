@@ -65,9 +65,29 @@ function emailVerifyNumber(dataEmail){
     });
 }
 
+function emailVerifyToken(dataEmail){
+    let mailOptions = {
+        from: 'kbsatest@gmail.com',
+        to: dataEmail.email,
+        subject: 'Xác nhận email',
+        html: `<h2>Thân gửi ${dataEmail.fullname}</h2>
+        <p>Bạn vừa đăng ký tài khoản với email này. Bấm vào link dưới đây để xác nhận email.</p>
+        <h4><a href="http://localhost:4200/active?confirmToken=${dataEmail.token}">LINK</a></h4>
+        `
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
+
 const sendEmail = {
     emailBought,
-    emailVerifyNumber
+    emailVerifyNumber,
+    emailVerifyToken
 };
 
 module.exports = sendEmail;

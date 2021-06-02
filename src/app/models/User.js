@@ -21,7 +21,8 @@ const UserSchema = new Schema(
             },
             date: {type: String, default:''},
         }],
-        wallet: {type: Number, default: 10000000}
+        wallet: {type: Number, default: 10000000},
+        verified: {type: Boolean, default:false},
     }
 );
 

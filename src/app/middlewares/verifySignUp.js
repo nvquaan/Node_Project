@@ -33,9 +33,23 @@ checkRolesExisted = (req, res, next) => {
     next();
 };
 
+async function isVerified(req, res, next) {
+    try {
+        let user = await User.findOne({ username: req.body.username });
+        if(!user.verified){
+            error(res, 'Tài khoản chưa xác nhận email');
+        }
+        next();
+    }
+    catch (err) {
+        error(res, err);
+    }
+}
+
 const verifySignUp = {
     checkDuplicateUsernameOrEmail,
-    checkRolesExisted
+    checkRolesExisted,
+    isVerified
 };
 
 module.exports = verifySignUp;

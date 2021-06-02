@@ -1,7 +1,7 @@
 const { response } = require('../lib/response');
 const { error, error400 } = require('../lib/error');
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const config = require("../../config/db/auth.config");
 const sendEmail = require("../../helper/sendEmail");
 
@@ -10,7 +10,7 @@ const Role = require("../models/Role");
 
 let randomNum;
 class AuthController {
-    async signup(req, res) {
+    async signup(req, res, next) {
         try {
             let formData = req.body;
             formData.password = bcrypt.hashSync(req.body.password, 8);
@@ -26,11 +26,42 @@ class AuthController {
             }
             await user.save();
             response(res, 'Đăng ký thành công');
+            let confirmToken = jwt.sign({ email: req.body.email }, config.secret);
+            let dataEmail = {
+                email: req.body.email,
+                fullname: req.body.fullname,
+                token: confirmToken,
+            }
+            sendEmail.emailVerifyToken(dataEmail);
         }
         catch (err) {
             error(res, 'Đăng ký không thành công');
         }
     };
+
+    async verifySignup(req, res, next) {
+        try {
+            let confirmToken = req.query.confirmToken;
+            jwt.verify(confirmToken, config.secret, (err, decoded) => {
+                if (err) {
+                    return res.json({
+                        code: 401,
+                        success: false,
+                        message: 'Có lỗi xảy ra',
+                        data: null,
+                    })
+                }
+                req.body.email = decoded.email;
+                response(res, 'Xác nhận email thành công');
+            });
+            let user = await User.findOne({ email: req.body.email });
+            user.verified = true;
+            await user.save();
+        }
+        catch (err) {
+            error(res, 'Có lỗi xảy ra');
+        }
+    }
     async signin(req, res) {
         try {
             let user = await User.findOne({ username: req.body.username }).populate("roles", "-__v");
@@ -89,7 +120,7 @@ class AuthController {
                     },
                     randomNum: randomNum
                 }
-                sendEmail.emailVerifyNumber(dataEmail); 
+                sendEmail.emailVerifyNumber(dataEmail);
                 return response(res, 'Kiểm tra email để nhận mã xác thực');
             }
             if (user && req.body.step === 2) {
@@ -103,7 +134,7 @@ class AuthController {
                 }
             }
             if (user && req.body.step === 3) {
-                let user = await User.findOne({username: req.body.username});
+                let user = await User.findOne({ username: req.body.username });
                 user.password = bcrypt.hashSync(req.body.newPassword, 8);
                 await user.save();
                 return response(res, 'Đổi mật khẩu thành công');
