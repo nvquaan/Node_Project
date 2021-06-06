@@ -171,7 +171,7 @@ class AppController {
         }
     }
 
-    //[DELETE] /courses/rate/:slug/:id
+    //[DELETE] /courses/rate/:slug/:id : slug la slug khoa hoc
     async deleteRateCourse(req, res, next) {
         try {
             await Rate.deleteOne({ _id: req.params.id });

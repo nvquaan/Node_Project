@@ -96,6 +96,7 @@ class AuthController {
                 phone: user.phone,
                 roles: roles,
                 courses: user.courses,
+                verified: user.verified,
                 accessToken: token
             })
         }
@@ -108,7 +109,7 @@ class AuthController {
         try {
             let user = await User.findOne({ username: req.body.username });
             if (!user) {
-                return error400(res, 'Không tìm thấy username');
+                return error400(res, 'Không tìm thấy usernames');
             }
             if (user && req.body.step === 1) {
                 randomNum = Math.floor(Math.random() * 10000) + 1000;
@@ -151,7 +152,22 @@ class AuthController {
                 path: 'courses',
                 populate: { path: 'course', select: ['name', 'imageUrl', 'cost', 'slug'] }
             });
-            response(res, 'Verify thành công', user);
+            let roles = [];
+            for (let role of user.roles) {
+                roles.push("ROLE_" + role.name.toUpperCase());
+            }
+            response(res, 'Verify thành công', {
+                username: user.username,
+                email: user.email,
+                fullname: user.fullname,
+                age: user.age,
+                gender: user.gender,
+                wallet: user.wallet,
+                phone: user.phone,
+                roles: roles,
+                courses: user.courses,
+                verified: user.verified,
+            });
         }
         catch (err) {
             error(res, 'Có lỗi xảy ra!');

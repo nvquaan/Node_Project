@@ -3,6 +3,7 @@ const Category = require('../models/Category');
 const Lesson = require('../models/Lesson');
 const User = require('../models/User');
 const Role = require('../models/Role');
+const Rate = require('../models/Rate');
 
 class MeController {
     //[GET] me/stored/courses
@@ -98,7 +99,7 @@ class MeController {
         }
     }
 
-    //[GET] /me/users/:id
+    //[PUT] /me/users/:id
     async editRoleUser(req, res, next) {
         try {
             let user = await User.findOne({ _id: req.params.id });
@@ -122,6 +123,38 @@ class MeController {
             next(err);
         }
     }
-}
 
+    // [DELETE] /me/users/:id
+    // Xoá rate của user -> cập nhật rate trung bình -> xoá user
+    async deleteUser(req, res, next) {
+        try {
+            const userId = req.params.id;
+            let ratesOfUser = await Rate.find({user: userId});
+            for(let rate of ratesOfUser){
+                await Rate.deleteOne({_id: rate._id});
+                updateRateAvgOfCourse(rate.course);
+            }
+            await User.deleteOne({_id: userId});
+            res.redirect('/me/stored/users');
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+}
+//tính trung bình rate của khoá học: lấy tất cả các rates có idcourse -> tính trung bình
+async function updateRateAvgOfCourse(id) {
+    let course = await Course.findOne({ _id: id });
+    let rates = await Rate.find({ course: course._id });
+    if (rates.length > 0) {
+        rates = rates.map((r) => r.toObject());
+        let rateAvg = rates.reduce((value, item) => {
+            return value + item.rate;
+        }, 0);
+        course.rateAvg = +(rateAvg / rates.length).toFixed(1);
+    } else {
+        course.rateAvg = 0;
+    }
+    await course.save();
+}
 module.exports = new MeController;

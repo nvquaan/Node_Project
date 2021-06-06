@@ -11,4 +11,5 @@ router.get('/trash/lessons', meController.trashLessons);
 router.get('/stored/lessons', meController.storedLessons);
 router.get('/stored/users', meController.storedUsers);
 router.put('/users/:id', meController.editRoleUser);
+router.delete('/users/:id', meController.deleteUser);
 module.exports = router;

@@ -36,8 +36,11 @@ checkRolesExisted = (req, res, next) => {
 async function isVerified(req, res, next) {
     try {
         let user = await User.findOne({ username: req.body.username });
+        if(!user){
+            return error(res, 'Không tìm thấy username');
+        }
         if(!user.verified){
-            error(res, 'Tài khoản chưa xác nhận email');
+            return error(res, 'Tài khoản chưa xác nhận email');
         }
         next();
     }
