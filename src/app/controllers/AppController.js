@@ -53,7 +53,18 @@ class AppController {
             error(res, "Không thành công");
         }
     }
-
+    //[POST] /categories/search
+    async searchCategories(req, res, next) {
+        try {
+            let str = req.body.searchStr
+            let categories = await Category.find({ name: { $regex: str, $options: "i" } });
+            console.log(categories);
+            categories = categories.map(c => c.toObject());
+            response(res, "Tìm kiếm danh mục thành công!", categories);
+        } catch (err) {
+            error(res, "Tìm kiếm danh mục không thành công!");
+        }
+    }
     //COURSES
     // [GET] /courses/:slug/lessons/
     async getAllLessonsOfCourse(req, res, next) {

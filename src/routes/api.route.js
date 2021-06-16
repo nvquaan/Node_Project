@@ -17,6 +17,8 @@ router.get('/categories/:slug/courses', appController.getAllCoursesOfCategory);
 router.get('/categories/:slug', appController.getOneCategory);
 router.get('/categories', appController.getAllCategories);
 router.get('/trash/categories', appController.trashCategories);
+router.post('/categories/search', appController.searchCategories);
+
 //COURSES
 router.get('/courses/hot', appController.getAllHotCourse);
 router.post('/courses/search', appController.searchCourses);
