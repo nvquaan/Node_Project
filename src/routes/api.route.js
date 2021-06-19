@@ -12,6 +12,7 @@ router.get('/auth/verify-signup', authController.verifySignup);
 router.post('/auth/signin', authController.signin);
 router.post('/auth/forget-password', [verifySignUp.isVerified] , authController.forgetPassword);
 router.get('/auth/check-signin/:slug', [authJwt.verifyToken], authController.checkSignin);
+router.post('/user/edit', [authJwt.verifyToken], authController.editUser);
 //CATEGORIES
 router.get('/categories/:slug/courses', appController.getAllCoursesOfCategory);
 router.get('/categories/:slug', appController.getOneCategory);

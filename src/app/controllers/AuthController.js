@@ -173,6 +173,9 @@ class AuthController {
             error(res, 'Có lỗi xảy ra!');
         }
     }
+    editUser (req, res, next) {
+        console.log(req.body);
+    }
 }
 
 module.exports = new AuthController();
