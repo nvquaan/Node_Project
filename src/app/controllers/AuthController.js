@@ -173,8 +173,34 @@ class AuthController {
             error(res, 'Có lỗi xảy ra!');
         }
     }
-    editUser (req, res, next) {
-        console.log(req.body);
+    async editUser(req, res, next) {
+        try {
+            let user = await User.findOne({ username: req.body.username });
+            if (!user) {
+                return error400(res, 'Không tìm thấy username');
+            }
+            user.fullname = req.body.fullname;
+            user.age = req.body.age;
+            user.gender = req.body.gender;
+            user.phone = req.body.phone;
+            if (req.body.oldPassword && req.body.newPassword) {
+                let passwordIsValid = bcrypt.compareSync(
+                    req.body.oldPassword,
+                    user.password
+                );
+                if (!passwordIsValid) {
+                    return error400(res, 'Mật khẩu cũ không chính xác');
+                } else {
+                    user.password = bcrypt.hashSync(req.body.newPassword, 8);
+                }
+            }
+            await user.save();
+            response(res, 'Đổi thông tin thành công!');
+            console.log(req.body);
+        }
+        catch (err) {
+            error(res, 'Có lỗi xảy ra');
+        }
     }
 }
 
