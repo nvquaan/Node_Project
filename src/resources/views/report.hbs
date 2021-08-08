@@ -1,6 +1,14 @@
 <div class="report-container">
     <div class="row">
         <div class="col-xl-12 my-5 text-center">
+            <h3 class="mb-3">Báo cáo theo lượt mua khoá học</h3>
+            <div class="card">
+                <canvas id="chartCourse4" style="max-height:350px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 my-5 text-center">
             <h3 class="mb-3">Báo cáo theo danh mục khoá học</h3>
             <div class="card">
                 <canvas id="chartCategory" style="max-height:350px;"></canvas>
@@ -139,8 +147,17 @@
     }
 </script>
 
+{{!-- Thống kê số lượt bán của từng khoá học --}}
+<script>
+    const countedBought = {{{ countedBought }}};
+    const labelBoughtCourses = countedBought.map(i => i.name);
+    const countBoughtCourses = countedBought.map(i => i.count);
+    const configBarBoughtCourses = BarChart(labelBoughtCourses, countBoughtCourses, 'Báo cáo lượt mua của từng khoá học', 'Số lượt mua');
+    let chartCourses = new Chart(document.getElementById("chartCourse4"), configBarBoughtCourses);
+</script>
 {{!-- Thông kê số khoá học trong từng danh mục khoá học --}}
 <script>
+
     const categories = {{{ categories }}};
     const labelsCategory = categories.map(c => c.name);
     const dataCategory = categories.map(c => c.courseNumber);
@@ -209,7 +226,7 @@
 
     const configBarRateOfCourses = BarChart(labelsrateOfCourses, datarateOfCourses, 'Đánh giá trung bình từng khoá học', 'Đánh giá trung bình');
     configBarRateOfCourses.options.indexAxis = "y";
-    
+
     let chartRateOfCourses = new Chart(document.getElementById("chartRate2"), configBarRateOfCourses);
 </script>
 
