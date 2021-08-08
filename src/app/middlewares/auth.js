@@ -28,11 +28,11 @@ async function isModerator(req, res, next) {
 
 async function isAdmin(req, res, next) {
     try {
-        if(req.session.user.roles.includes('ROLE_ADMIN')){
+        if(req.session.user && req.session.user.roles.includes('ROLE_ADMIN')){
             next();
             return;
         }
-        error400(res, "Bạn không phải admin");
+        res.redirect("/");
     }
     catch (err) {
         error(res, err);

@@ -7,7 +7,7 @@ const { auth } = require("../app/middlewares");
 router.get('/', siteController.login);
 router.get('/signout', siteController.logout);
 router.post('/signin', siteController.signin);
-router.get('/home', [auth.isLoggedIn], siteController.getAllCourses);
-router.get('/report', siteController.report);
+router.get('/home', [auth.isAdmin], siteController.getAllCourses);
+router.get('/report', [auth.isAdmin], siteController.report);
 
 module.exports = router;
