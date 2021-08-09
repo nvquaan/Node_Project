@@ -2,6 +2,7 @@ const Course = require("../models/Course");
 const Category = require("../models/Category");
 const Lesson = require("../models/Lesson");
 const Rate = require("../models/Rate");
+const User = require("../models/User");
 
 class CourseController {
     //[GET] /courses/:slug  Hien thi 1 khoa hoc
@@ -91,6 +92,13 @@ class CourseController {
             const resultDelete = await course.deleteOne();
             const category = await Category.findOne({ _id: resultDelete.category });
             category.courseNumber--;
+            //Nếu khoá học đã được mua, xoá trong bảng user
+            const users = await User.find({});
+            users.forEach( async u => {
+                let index = u.courses.findIndex(c => c.course == req.params.id || !c);
+                u.courses.splice(index, 1);
+                await u.save();
+            });
             await category.save();
             res.redirect("back");
         } catch (err) {

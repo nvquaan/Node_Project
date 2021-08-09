@@ -156,6 +156,7 @@ class AuthController {
             for (let role of user.roles) {
                 roles.push("ROLE_" + role.name.toUpperCase());
             }
+            // console.log(user.courses);
             response(res, 'Verify thành công', {
                 username: user.username,
                 email: user.email,

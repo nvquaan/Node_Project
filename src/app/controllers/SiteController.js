@@ -68,15 +68,15 @@ class SiteController {
         user.forEach(u => {
             boughtCourses.push(...(u.courses.map(c => c.course)));
         })
-
+        boughtCourses = boughtCourses.filter(c => c!=null); // lọc các khoá học bị xoá
         let objCount = {}; // obj count số lượng mua của các khoá học ở trên
-        boughtCourses.forEach(c => {
+        boughtCourses.forEach((c, index) => {
             objCount[c._id] = (objCount[c._id] || 0) + 1
         })
         let countedBought = [];
-        for(let prop in objCount) {
+        for (let prop in objCount) {
             let name = boughtCourses.find(c => c._id == prop)['name'];
-            countedBought.push({name, count: objCount[prop]});
+            countedBought.push({ name, count: objCount[prop] });
         }
         res.render("report", {
             countedBought: JSON.stringify(countedBought),
