@@ -12,7 +12,35 @@ class MeController {
             let courses = await Course.find({}).populate('category', 'name');
             let deletedCount = await Course.countDocumentsDeleted();
             courses = courses.map(course => course.toObject());
-            res.render('me/stored-courses', { deletedCount, courses });
+            let categories = await Category.find({});
+            categories = categories.map(c => {
+                return {
+                    _id: c._id,
+                    name: c.name
+                }
+            });
+            let selected = 1;
+            res.render('me/stored-courses', { deletedCount, courses, categories, selected });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    //[GET] me/stored/courses/:id
+    async filterCourses(req, res, next) {
+        try {
+            let courses = await Course.find({category: {$in: req.params.id}}).populate('category', 'name');
+            let deletedCount = await Course.countDocumentsDeleted();
+            courses = courses.map(course => course.toObject());
+            let categories = await Category.find({});
+            categories = categories.map(c => {
+                return {
+                    _id: c._id,
+                    name: c.name
+                }
+            });
+            let selected = JSON.stringify(req.params.id);
+            res.render('me/stored-courses', { deletedCount, courses, categories, selected });
         }
         catch (err) {
             next(err);
@@ -59,9 +87,37 @@ class MeController {
     async storedLessons(req, res, next) {
         try {
             let lessons = await Lesson.find({}).populate('course', 'name').sortable(req);
+            let courses = await Course.find({});
+            courses = courses.map(c => {
+                return {
+                    _id: c._id,
+                    name: c.name
+                }
+            });
             let deletedCount = await Lesson.countDocumentsDeleted();
             lessons = lessons.map(category => category.toObject());
-            res.render('me/stored-lessons', { deletedCount, lessons });
+            let selected = 1;
+            res.render('me/stored-lessons', { deletedCount, lessons, courses, selected });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    //[GET] me/stored/lessons/:id
+    async filterLessons(req, res, next) {
+        try {
+            let lessons = await Lesson.find({course: {$in: req.params.id}}).populate('course', 'name').sortable(req);
+            let courses = await Course.find({});
+            courses = courses.map(c => {
+                return {
+                    _id: c._id,
+                    name: c.name
+                }
+            });
+            let deletedCount = await Lesson.countDocumentsDeleted();
+            let selected = JSON.stringify(req.params.id);
+            lessons = lessons.map(category => category.toObject());
+            res.render('me/stored-lessons', { deletedCount, lessons, courses, selected });
         }
         catch (err) {
             next(err);

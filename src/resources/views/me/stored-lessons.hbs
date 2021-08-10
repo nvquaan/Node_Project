@@ -4,9 +4,12 @@
         <a href="/me/trash/lessons">Thùng rác ({{deletedCount}})</a>
 
         <div class="mt-4 d-flex align-items-center">
-            <select class="custom-select form-control-sm checkbox-select-all-options" name="action" required>
-                <option value="">Tất cả</option>
-                <option value="delete">Xoá</option>
+            <select class="custom-select form-control-sm checkbox-select-all-options" name="action"
+                id="dropdown-course">
+                <option value="1">--Tất cả--</option>
+                {{#each courses}}
+                <option value="{{this._id}}">{{this.name}}</option>
+                {{/each}}
             </select>
 
             <button class="btn btn-primary btn-sm submit-btn" disabled>Thực
@@ -17,25 +20,25 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th scope="col" >STT</th>
-            <th scope="col">
-                Tên bài học
-                {{{sortable 'name' _sort}}}
-            </th>
-            <th scope="col">Mô tả</th>
-            <th scope="col">Ảnh</th>
-            <th scope="col">
-                Khoá học
-                {{{sortable 'course.name' _sort}}}
-            </th>
-            <th scope="col">Thời gian
-                {{{sortable 'time' _sort}}}
-            </th>
-        </tr>
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">
+                    Tên bài học
+                    {{{sortable 'name' _sort}}}
+                </th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Ảnh</th>
+                <th scope="col">
+                    Khoá học
+                    {{{sortable 'course.name' _sort}}}
+                </th>
+                <th scope="col">Thời gian
+                    {{{sortable 'time' _sort}}}
+                </th>
+            </tr>
         </thead>
         <tbody>
-        {{#each lessons}}
+            {{#each lessons}}
             <tr>
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.name}}</td>
@@ -46,10 +49,10 @@
                 <td>
                     <a href="/lessons/{{this._id}}/edit" class="btn btn-link">Sửa</a>
                     <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
-                       data-target="#delete-lesson">Xoá</a>
+                        data-target="#delete-lesson">Xoá</a>
                 </td>
             </tr>
-        {{else}}
+            {{else}}
             <tr>
                 <td colspan="5" class="text-center">
                     Bạn chưa đăng bài học nào.
@@ -57,7 +60,7 @@
                 </td>
             </tr>
 
-        {{/each}}
+            {{/each}}
         </tbody>
     </table>
 </form>
@@ -85,6 +88,7 @@
 
 {{!-- Delete form--}}
 <form method="POST" name="delete-lesson-form" action=""></form>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         //Khi bam vao nut xoa
@@ -106,26 +110,17 @@
             deleteForm.submit();
         }
 
-        //checkbox all clicked
-        // checkBoxAll.change(function () {
-        //     lessonItemCheckbox.prop('checked', $(this).prop('checked'));
-        //     renderSubmitBtn()
-        // });
-        //
-        // lessonItemCheckbox.change(function () {
-        //     var isCheckedAll = $('input[name="lessonIds[]"]:checked').length === lessonItemCheckbox.length;
-        //     checkBoxAll.prop('checked', isCheckedAll);
-        //     renderSubmitBtn()
-        // })
-
-        //Re-render check all submit btn
-        // function renderSubmitBtn() {
-        //     var checkedCount = $('input[name="lessonIds[]"]:checked').length;
-        //     if (checkedCount) {
-        //         SubmitBtn.attr('disabled', false);
-        //     } else {
-        //         SubmitBtn.attr('disabled', true);
-        //     }
-        // }
+        let dropdownCourse = $('#dropdown-course');
+        let selected = {{{ selected }}};
+        $('#dropdown-course option').removeAttr('selected')
+                                    .filter(`[value=${selected}]`)
+                                    .attr('selected', true)
+        dropdownCourse.on('change', function (event) {
+            if (dropdownCourse.val() != 1) {
+                $(location).attr('href', '/me/stored/lessons/' + dropdownCourse.val())
+            } else {
+                $(location).attr('href', '/me/stored/lessons');
+            }
+        })
     });
 </script>

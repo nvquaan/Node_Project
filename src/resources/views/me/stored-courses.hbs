@@ -4,9 +4,12 @@
         <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a>
 
         <div class="mt-4 d-flex align-items-center">
-            <select class="custom-select form-control-sm checkbox-select-all-options" name="action" required>
-                <option value="">Tất cả</option>
-                <option value="delete">Xoá</option>
+            <select class="custom-select form-control-sm checkbox-select-all-options" name="action"
+                id="dropdown-categories">
+                <option value="1">--Tất cả--</option>
+                {{#each categories}}
+                <option value="{{this._id}}">{{this.name}}</option>
+                {{/each}}
             </select>
 
             <button class="btn btn-primary btn-sm submit-btn" disabled>Thực
@@ -122,26 +125,17 @@
             deleteForm.submit();
         }
 
-        //checkbox all clicked
-        // checkBoxAll.change(function () {
-        //     courseItemCheckbox.prop('checked', $(this).prop('checked'));
-        //     renderSubmitBtn()
-        // });
-        //
-        // courseItemCheckbox.change(function () {
-        //     var isCheckedAll = $('input[name="courseIds[]"]:checked').length === courseItemCheckbox.length;
-        //     checkBoxAll.prop('checked', isCheckedAll);
-        //     renderSubmitBtn()
-        // })
-
-        //Re-render check all submit btn
-        // function renderSubmitBtn() {
-        //     var checkedCount = $('input[name="courseIds[]"]:checked').length;
-        //     if (checkedCount) {
-        //         SubmitBtn.attr('disabled', false);
-        //     } else {
-        //         SubmitBtn.attr('disabled', true);
-        //     }
-        // }
+        let dropdownCategories = $('#dropdown-categories');
+        let selected = {{{ selected }}};
+        $('#dropdown-categories option').removeAttr('selected')
+                                    .filter(`[value=${selected}]`)
+                                    .attr('selected', true)
+        dropdownCategories.on('change', function (event) {
+            if (dropdownCategories.val() != 1) {
+                $(location).attr('href', '/me/stored/courses/' + dropdownCategories.val())
+            } else {
+                $(location).attr('href', '/me/stored/courses');
+            }
+        })
     });
 </script>
