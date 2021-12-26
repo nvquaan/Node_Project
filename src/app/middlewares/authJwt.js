@@ -15,7 +15,7 @@ function verifyToken(req, res, next) {
             res.json({
                 code: 401,
                 success: false,
-                message: 'Token sai hoặc hết hạn',
+                message: 'Phiên đăng nhập hết hạn',
                 data: null,
             })
         }
