@@ -2,7 +2,10 @@ const Course = require("../models/Course");
 const Category = require("../models/Category");
 const Rate = require("../models/Rate");
 const User = require("../models/User");
-var bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
+const dayjs = require('dayjs')
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
 class SiteController {
     // [GET] /home
     async getAllCourses(req, res, next) {
@@ -28,6 +31,14 @@ class SiteController {
 
     // [GET] /report -> vao trang bao cao
     async report(req, res) {
+        let dateRange = {
+            startDate: dayjs().subtract(1, "M").format("YYYY-MM-DD"),
+            endDate: dayjs().format("YYYY-MM-DD")
+        }
+        if(req.query && req.query.startDate && req.query.endDate) {
+            dateRange.startDate = req.query.startDate;
+            dateRange.endDate = req.query.endDate;
+        }
         let categories = await Category.find({});
         categories = categories.map(c => {
             return {
@@ -66,9 +77,26 @@ class SiteController {
         );
         let boughtCourses = []; //mảng lưu danh danh sách các khoá học đc mua (có trùng)
         user.forEach(u => {
-            boughtCourses.push(...(u.courses.map(c => c.course)));
+            boughtCourses.push(...(u.courses.map(c => {
+                return {
+                    _id: c.course.id,
+                    name: c.course.name,
+                    date: dayjs(c.date, "DD/MM/YYYY").unix()
+                };
+            })));
         })
+        let newBoughtCourses = 0; //Khoa học mới mua trong ngày
+        let startOfDay = dayjs().startOf("D").unix();
+        let endOfDay = dayjs().endOf("D").unix();
+        newBoughtCourses = boughtCourses.filter(c => c.date <= endOfDay && c.date >= startOfDay).length;
         boughtCourses = boughtCourses.filter(c => c!=null); // lọc các khoá học bị xoá
+        //Loc theo thoi gian
+        if(dateRange.startDate && dateRange.endDate) {
+            const start = dayjs(dateRange.startDate, "YYYY-MM-DD").unix();
+            const end = dayjs(dateRange.endDate, "YYYY-MM-DD").unix();
+            boughtCourses = boughtCourses.filter(c => c.date <= end && c.date >= start)
+        }
+
         let objCount = {}; // obj count số lượng mua của các khoá học ở trên
         boughtCourses.forEach((c, index) => {
             objCount[c._id] = (objCount[c._id] || 0) + 1
@@ -78,7 +106,10 @@ class SiteController {
             let name = boughtCourses.find(c => c._id == prop)['name'];
             countedBought.push({ name, count: objCount[prop] });
         }
+
         res.render("report", {
+            dateRange: JSON.stringify(dateRange),
+            newBoughtCourses: JSON.stringify(newBoughtCourses),
             countedBought: JSON.stringify(countedBought),
             categories: JSON.stringify(categories),
             courses: JSON.stringify(courses),

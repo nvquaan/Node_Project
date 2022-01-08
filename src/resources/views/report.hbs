@@ -1,7 +1,23 @@
 <div class="report-container">
     <div class="row">
+    </div>
+    <div class="row">
         <div class="col-xl-12 my-5 text-center">
-            <h3 class="mb-3">Báo cáo theo lượt mua khoá học</h3>
+            <h3 class="mb-3">Báo cáo theo lượt mua khoá học </h3>
+            <p style="color: red; margin-bottom: 10px;">({{ newBoughtCourses }} lượt mua khoá học mới trong hôm nay)</p>
+            <div class="d-flex justify-content-center">
+                <form method="GET" action="/report" class="d-flex justify-content-center align-items-center"
+                      style="margin-bottom: 20px;">
+                    From <input type="date" value="" name="startDate" id="startDate"
+                                style="margin: 5px 12px; width: 200px; border: 1px solid #c1b9b9;">
+                    To <input type="date" value="" name="endDate" id="endDate"
+                              style="margin: 5px 12px; width: 200px; border: 1px solid #c1b9b9;">
+                    <button type="submit" class="btn btn-primary course-btn">Search</button>
+                </form>
+                <form method="GET" action="/report">
+                    <button type="submit" class="btn btn-default course-btn" style="margin-left: 10px;">Reset</button>
+                </form>
+            </div>
             <div class="card">
                 <canvas id="chartCourse4" style="max-height:350px;"></canvas>
             </div>
@@ -149,7 +165,13 @@
 
 {{!-- Thống kê số lượt bán của từng khoá học --}}
 <script>
+    let dateRange = {{{ dateRange }}};
+    if(dateRange) {
+        document.getElementById("startDate").value = dateRange.startDate;
+        document.getElementById("endDate").value = dateRange.endDate;
+    }
     const countedBought = {{{ countedBought }}};
+    let newBoughtCourses = {{{ newBoughtCourses }}};
     const labelBoughtCourses = countedBought.map(i => i.name);
     const countBoughtCourses = countedBought.map(i => i.count);
     const configBarBoughtCourses = BarChart(labelBoughtCourses, countBoughtCourses, 'Báo cáo lượt mua của từng khoá học', 'Số lượt mua');
@@ -169,7 +191,6 @@
 {{!------------ Theo khoảng giá --}}
 <script>
     const courses = {{{ courses }}};
-    console.log(courses);
 
     let cost = courses.map(c => c.cost).sort();
     let a = 0, b = 0, c = 0, d = 0;
